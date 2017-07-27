@@ -6,10 +6,14 @@ This is a module for loading data from AlphaVantage
 import urllib.request
 import json
 import datetime
+import enum
 
 TIMESERIES_BASE_URL = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="
 
 URL_TAIL = "&outputsize=full&apikey=U8DGBF2PDMXR2FZT"
+
+INTRADAY_BASE_URL = "https://www.alphavantage.co/query?" \
+    "function=TIME_SERIES_INTRADAY&symbol=MSFT&interval="
 
 class TimeoutException(Exception):
     """Used in conjunction with next_day_back in the case that data doesn't exist past 200 days"""
@@ -72,6 +76,38 @@ class StockData(object):
     def __str__(self):
         return ("(" + self.company + "," + str(self.mavg_50) + ", "
                 + str(self.mavg_100) + ", " + str(self.mavg_200) + ")")
+
+
+class AVFunction(enum.Enum):
+    """Enumeration for the different functions available from the AlphaVantage API"""
+    DAILY = 'TIME_SERIES_DAILY'
+    INTRADAY = 'TIME_SERIES_INTRADAY'
+
+class TimeDifferential(enum.Enum):
+    """Enumeration of the different time differentials at which data can be pulled
+
+    This object is currently not implemented
+    """
+    def __init__(self):
+        raise NotImplementedError("Class not supported yet")
+
+
+class AVLoader(object):
+    """This class loads data from alphavantage based on specified parameters"""
+
+    def __init__(self, company, function, interval=None):
+        """function must be a valid AVFunction"""
+        self.company = company
+        self.function = function
+        self.interval = interval
+
+    def get_stock_data(self):
+        """Makes and api call to alphavantage and returns a dictionary... [INCOMPLETE]"""
+        if self.function == AVFunction.DAILY:
+            return json.load(urllib.request.urlopen(TIMESERIES_BASE_URL + self.company + URL_TAIL))
+        else:
+            raise NotImplementedError("get_stock_data() is not implemented for other functions yet")
+
 
 if __name__ == '__main__':
     print("\nGetting stock data for Google...")

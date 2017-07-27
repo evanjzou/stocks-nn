@@ -6,6 +6,7 @@ This is a module for loading data from AlphaVantage
 import urllib.request
 import json
 import datetime
+import enum
 
 TIMESERIES_BASE_URL = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="
 
@@ -72,6 +73,21 @@ class StockData(object):
     def __str__(self):
         return ("(" + self.company + "," + str(self.mavg_50) + ", "
                 + str(self.mavg_100) + ", " + str(self.mavg_200) + ")")
+
+
+class AVFunction(enum.Enum):
+    """Enumeration for the different functions available from the AlphaVantage API"""
+    DAILY = 'TIME_SERIES_DAILY'
+    INTRADAY = 'TIME_SERIES_INTRADAY'
+
+class TimeDifferential(enum.Enum):
+    """
+    Enumeration of the different time differentials at which data can be pulled
+
+    More may be added in the future
+    """
+    DAY = "1d"
+
 
 if __name__ == '__main__':
     print("\nGetting stock data for Google...")

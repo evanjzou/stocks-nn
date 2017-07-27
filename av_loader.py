@@ -12,6 +12,9 @@ TIMESERIES_BASE_URL = "https://www.alphavantage.co/query?function=TIME_SERIES_DA
 
 URL_TAIL = "&outputsize=full&apikey=U8DGBF2PDMXR2FZT"
 
+INTRADAY_BASE_URL = "https://www.alphavantage.co/query?" \
+    "function=TIME_SERIES_INTRADAY&symbol=MSFT&interval="
+
 class TimeoutException(Exception):
     """Used in conjunction with next_day_back in the case that data doesn't exist past 200 days"""
     pass
@@ -81,12 +84,29 @@ class AVFunction(enum.Enum):
     INTRADAY = 'TIME_SERIES_INTRADAY'
 
 class TimeDifferential(enum.Enum):
-    """
-    Enumeration of the different time differentials at which data can be pulled
+    """Enumeration of the different time differentials at which data can be pulled
 
-    More may be added in the future
+    This object is currently not implemented
     """
-    DAY = "1d"
+    def __init__(self):
+        raise NotImplementedError("Class not supported yet")
+
+
+class AVLoader(object):
+    """This class loads data from alphavantage based on specified parameters"""
+
+    def __init__(self, company, function, interval=None):
+        """function must be a valid AVFunction"""
+        self.company = company
+        self.function = function
+        self.interval = interval
+
+    def get_stock_data(self):
+        """Makes and api call to alphavantage and returns a dictionary... [INCOMPLETE]"""
+        if self.function == AVFunction.DAILY:
+            return json.load(urllib.request.urlopen(TIMESERIES_BASE_URL + self.company + URL_TAIL))
+        else:
+            raise NotImplementedError("get_stock_data() is not implemented for other functions yet")
 
 
 if __name__ == '__main__':

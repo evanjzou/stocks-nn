@@ -38,8 +38,9 @@ class Collection:
             # secToDate = datetime.datetime.fromtimestamp(secsToAdd) # if doesn't work, might be wrong timezone
             secToDate = self.startDate + datetime.timedelta(0, secsToAdd)
 
-            myTI = TimeInstance(self.companyName, myTIJSON, secToDate)
-            self.addTimeInstance(myTI)
+            if str(secToDate) in myTIJSON['Time Series (Daily)']:
+                myTI = TimeInstance(self.companyName, myTIJSON, secToDate)
+                self.addTimeInstance(myTI)
 
             i = i+1
 

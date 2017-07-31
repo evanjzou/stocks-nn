@@ -13,7 +13,7 @@ from neon.transforms import CrossEntropyMulti
 from neon.optimizers import GradientDescentMomentum
 from neon.callbacks.callbacks import Callbacks
 from neon.transforms import Misclassification
-
+from neon.util.argparser import NeonArgparser
 
 TRAINING_DURATION_IN_DAYS = 1500
 TEST_DURATION_IN_DAYS = 500
@@ -23,21 +23,10 @@ COMPANY_NAME = 'GOOG'
 NUM_OUTPUTS = 2
 
 
-def timeInstanceToArray(timeInstance):
-    """
-    converts a timeInstance to an Array
-    :param timeInstance: timeInstance containing relevant stock information
-    :return: timeInstance in Array form.
-    """
-    inputArray = []
-# convert timeInstance output to array form and add to inputArray
-    inputArray += floatArray(timeInstance.volume)
-    inputArray += floatArray(timeInstance.currentPrice)
-    inputArray += floatArray(timeInstance.mavg_50)
-    inputArray += floatArray(timeInstance.mavg_100)
-    inputArray += floatArray(timeInstance.mavg_200)
 
-    return inputArray
+parser = NeonArgparser(__doc__)
+args = parser.parse_args()
+
 
 
 def floatArray(float):
@@ -50,7 +39,7 @@ def floatArray(float):
     bitarray = []
     f1 = bitstring.BitStream(float=float, length=32)
     result = f1.read('bin')
-    return list(f1.read('bin'))
+    return list(result)
 
 
 def createArrayIterator(companyName, startDate, endDate, timeDifferential):
@@ -65,16 +54,25 @@ def createArrayIterator(companyName, startDate, endDate, timeDifferential):
     """
 
     # load an array of timeInstance objects
-    print(type(companyName))
     company = Collection(companyName, startDate, endDate, timeDifferential)
     timeInstances = company.series
 
     # create a 2D array, each row representing a timeseries as an array
-    X = np.array(timeInstanceToArray(timeInstance) for timeInstance in timeInstances)
+    XList = []
+    for timeInstance in timeInstances:
+        inputArray = []
+        # convert timeInstance output to array form and add to inputArray
+        inputArray += floatArray(timeInstance.infoSeries.volume)
+        inputArray += floatArray(timeInstance.infoSeries.currentPrice)
+        inputArray += floatArray(timeInstance.infoSeries.mavg_50)
+        inputArray += floatArray(timeInstance.infoSeries.mavg_100)
+        inputArray += floatArray(timeInstance.infoSeries.mavg_200)
+        XList.append(inputArray)
+    X = np.array(XList)
 
     # create a 2D array of 1hot collumns for buy/sell
     yList = []
-    for timeInstance in company:
+    for timeInstance in timeInstances:
 
         # flag needs to be set
         if timeInstance.flag:

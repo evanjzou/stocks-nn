@@ -19,7 +19,7 @@ class Collection:
 class Collection:
     series = []
 
-    def __init__(self, inCompanyName, unparsedJSON, inStartDate, inEndDate, inTimeDifferential):
+    def __init__(self, inCompanyName, inStartDate, inEndDate, inTimeDifferential):
         ''' inTimeDifferential should be in minutes '''
         self.companyName = inCompanyName
         self.startDate = inStartDate
@@ -49,8 +49,10 @@ class Collection:
             secsToAdd = i * timeDiffSeconds
             # secToDate = datetime.datetime.fromtimestamp(secsToAdd) # if doesn't work, might be wrong timezone
             secToDate = self.startDate + datetime.timedelta(0, secsToAdd)
-            myTI = TimeInstance(self.companyName, unparsedJSON, secToDate)
+            myTIJSON = av_loader.AVLoader(self.companyName, av_loader.AVFunction.DAILY, secToDate).get_stock_data()
+            myTI = TimeInstance(self.companyName, myTIJSON, secToDate)
             self.addTimeInstance(myTI)
+
             i = i+1
 
         self.setFlags()
@@ -61,7 +63,9 @@ class Collection:
                 self.series[i].flag = True
 
     def addTimeInstance(self, timeInstance):
+
         self.series.append(timeInstance)
+
 
 class TimeInstance:
     ''' has a companyName, a flag, and a timeToSearch '''
@@ -82,11 +86,12 @@ class TimeInstance:
     def __str__(self):
         print(self.timeToSearch, self.flag)
 
+
 '''
 def test():
 
 
-    asdf = av_loader.AVLoader("MSFT", av_loader.AVFunction.DAILY, 30).get_stock_data()
+
     # for the third parameter above (the interval) you may need to change it once the AVLoader class is
     # expanded to actually implement/make use of the interval attribute
     
@@ -94,11 +99,11 @@ def test():
     testDate1 = datetime.date(2017, 7, 24)
     testDate2 = datetime.date(2017, 7, 27)
     testTimeDelta = datetime.timedelta(3)
-    testDiff = 30
-    testColl = Collection("MSFT", asdf, testDate1, testDate2, testDiff)
+    testDiff = 1440
+    testColl = Collection("MSFT", testDate1, testDate2, testDiff)
 
     testDate = datetime.date(2017, 7, 26)
-    testTimeInstance = TimeInstance("MSFT", asdf, testDate) # need an actual date object, not a string
+    # testTimeInstance = TimeInstance("MSFT", asdf, testDate) # need an actual date object, not a string
 
 
     # testTimeInstance.infoSeries.__str__()

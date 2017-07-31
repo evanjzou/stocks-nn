@@ -104,7 +104,9 @@ class AVLoader(object):
     def get_stock_data(self):
         """Makes and api call to alphavantage and returns a dictionary... [INCOMPLETE]"""
         if self.function == AVFunction.DAILY:
-            return json.load(urllib.request.urlopen(TIMESERIES_BASE_URL + self.company + URL_TAIL))
+            return json.loads(
+                urllib.request.urlopen(
+                    TIMESERIES_BASE_URL + self.company + URL_TAIL).read().decode('utf-8'))
         else:
             raise NotImplementedError("get_stock_data() is not implemented for other functions yet")
 

@@ -50,4 +50,4 @@ class ParsedInfo:
         return now
 
     def __str__(self):
-        print(self.volume)
+        print(self.close)

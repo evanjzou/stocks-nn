@@ -57,7 +57,7 @@ class Collection:
 
     def setFlags(self):
         for i in range(0, len(self.series)-1):
-            if self.series[i].close > self.series[i+1].close:
+            if self.series[i].infoSeries.close < self.series[i+1].infoSeries.close:
                 self.series[i].flag = True
 
     def addTimeInstance(self, timeInstance):
@@ -80,27 +80,28 @@ class TimeInstance:
         '''
 
     def __str__(self):
-        print(self.timeToSearch)
+        print(self.timeToSearch, self.flag)
 
+'''
 def test():
 
 
     asdf = av_loader.AVLoader("MSFT", av_loader.AVFunction.DAILY, 30).get_stock_data()
-    ''' for the third parameter above (the interval) you may need to change it once the AVLoader class is
-        expanded to actually implement/make use of the interval attribute
-    '''
+    # for the third parameter above (the interval) you may need to change it once the AVLoader class is
+    # expanded to actually implement/make use of the interval attribute
+    
 
     testDate1 = datetime.date(2017, 7, 24)
     testDate2 = datetime.date(2017, 7, 27)
     testTimeDelta = datetime.timedelta(3)
-    testDiff = 1440
+    testDiff = 30
     testColl = Collection("MSFT", asdf, testDate1, testDate2, testDiff)
 
     testDate = datetime.date(2017, 7, 26)
     testTimeInstance = TimeInstance("MSFT", asdf, testDate) # need an actual date object, not a string
 
 
-    testTimeInstance.infoSeries.__str__()
+    # testTimeInstance.infoSeries.__str__()
 
     for x in testColl.series:
         x.__str__()
@@ -112,3 +113,4 @@ def test():
     print("Made it to the end of the test.")
 
 test()
+'''

@@ -42,14 +42,14 @@ class Collection:
         yearStartDate = datetime.date(self.startDate.year, 1, 1)
         thisTimeDelta = self.startDate - yearStartDate
 
-
+        myTIJSON = av_loader.AVLoader(self.companyName, av_loader.AVFunction.DAILY).get_stock_data()
         i = 0
         while i <= intInterval:
             # secsToAdd = (thisTimeDelta.total_seconds() + (i * timeDiffSeconds))
             secsToAdd = i * timeDiffSeconds
             # secToDate = datetime.datetime.fromtimestamp(secsToAdd) # if doesn't work, might be wrong timezone
             secToDate = self.startDate + datetime.timedelta(0, secsToAdd)
-            myTIJSON = av_loader.AVLoader(self.companyName, av_loader.AVFunction.DAILY, secToDate).get_stock_data()
+
             myTI = TimeInstance(self.companyName, myTIJSON, secToDate)
             self.addTimeInstance(myTI)
 
@@ -87,7 +87,7 @@ class TimeInstance:
         print(self.timeToSearch, self.flag)
 
 
-'''
+
 def test():
 
 
@@ -118,4 +118,3 @@ def test():
     print("Made it to the end of the test.")
 
 test()
-'''

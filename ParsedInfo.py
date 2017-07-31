@@ -4,6 +4,7 @@ import av_loader
 
 class ParsedInfo:
     def __init__(self, info, date):
+        self.date = date
         dateStr = str(date)
         self.info = info
         self.volume = float(self.info["Time Series (Daily)"][dateStr]["5. volume"])
@@ -17,7 +18,7 @@ class ParsedInfo:
         self.__moving_average(self.info)
 
     def __moving_average(self, res):
-        current_day = datetime.date.today()
+        current_day = self.date
         days_counted = 0
         total = 0
         self.mavg_50 = 0
@@ -50,4 +51,4 @@ class ParsedInfo:
         return now
 
     def __str__(self):
-        print(self.close)
+        print(self.mavg_50, self.mavg_100, self.mavg_200)

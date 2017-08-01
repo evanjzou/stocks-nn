@@ -3,9 +3,8 @@ import datetime
 import av_loader
 
 class ParsedInfo:
-    def __init__(self, info, date):
+    def __init__(self, info, date, dateStr):
         self.date = date
-        dateStr = str(date)
 
         self.info = info
         self.volume = float(self.info["Time Series (Daily)"][dateStr]["5. volume"])

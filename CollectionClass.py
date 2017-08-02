@@ -3,6 +3,7 @@ import av_loader
 from datetime import timedelta
 import datetime
 
+<<<<<<< HEAD
 '''
 class Collection:
     # has a series, and a companyName
@@ -15,11 +16,13 @@ class Collection:
     def addTimeInstance(self, timeInstance):
         self.series.append(timeInstance)
 '''
+=======
+>>>>>>> JohnM
 
 class Collection:
     series = []
 
-    def __init__(self, inCompanyName, unparsedJSON, inStartDate, inEndDate, inTimeDifferential):
+    def __init__(self, inCompanyName, inStartDate, inEndDate, inTimeDifferential):
         ''' inTimeDifferential should be in minutes '''
         self.companyName = inCompanyName
         self.startDate = inStartDate
@@ -42,26 +45,36 @@ class Collection:
         yearStartDate = datetime.date(self.startDate.year, 1, 1)
         thisTimeDelta = self.startDate - yearStartDate
 
-
+        myTIJSON = av_loader.AVLoader(self.companyName, av_loader.AVFunction.DAILY).get_stock_data()
         i = 0
         while i <= intInterval:
             # secsToAdd = (thisTimeDelta.total_seconds() + (i * timeDiffSeconds))
             secsToAdd = i * timeDiffSeconds
             # secToDate = datetime.datetime.fromtimestamp(secsToAdd) # if doesn't work, might be wrong timezone
             secToDate = self.startDate + datetime.timedelta(0, secsToAdd)
-            myTI = TimeInstance(self.companyName, unparsedJSON, secToDate)
+
+<<<<<<< HEAD
+            myTI = TimeInstance(self.companyName, myTIJSON, secToDate)
             self.addTimeInstance(myTI)
+=======
+            if str(secToDate) in myTIJSON['Time Series (Daily)']:
+                myTI = TimeInstance(self.companyName, myTIJSON, secToDate)
+                self.addTimeInstance(myTI)
+>>>>>>> JohnM
+
             i = i+1
 
         self.setFlags()
 
     def setFlags(self):
         for i in range(0, len(self.series)-1):
-            if self.series[i].close > self.series[i+1].close:
+            if self.series[i].infoSeries.close < self.series[i+1].infoSeries.close:
                 self.series[i].flag = True
 
     def addTimeInstance(self, timeInstance):
+
         self.series.append(timeInstance)
+
 
 class TimeInstance:
     ''' has a companyName, a flag, and a timeToSearch '''
@@ -80,27 +93,30 @@ class TimeInstance:
         '''
 
     def __str__(self):
-        print(self.timeToSearch)
+        print(self.timeToSearch, self.flag)
 
+
+
+<<<<<<< HEAD
 def test():
 
 
-    asdf = av_loader.AVLoader("MSFT", av_loader.AVFunction.DAILY, 30).get_stock_data()
-    ''' for the third parameter above (the interval) you may need to change it once the AVLoader class is
-        expanded to actually implement/make use of the interval attribute
-    '''
+
+    # for the third parameter above (the interval) you may need to change it once the AVLoader class is
+    # expanded to actually implement/make use of the interval attribute
+    
 
     testDate1 = datetime.date(2017, 7, 24)
     testDate2 = datetime.date(2017, 7, 27)
     testTimeDelta = datetime.timedelta(3)
     testDiff = 1440
-    testColl = Collection("MSFT", asdf, testDate1, testDate2, testDiff)
+    testColl = Collection("MSFT", testDate1, testDate2, testDiff)
 
     testDate = datetime.date(2017, 7, 26)
-    testTimeInstance = TimeInstance("MSFT", asdf, testDate) # need an actual date object, not a string
+    # testTimeInstance = TimeInstance("MSFT", asdf, testDate) # need an actual date object, not a string
 
 
-    testTimeInstance.infoSeries.__str__()
+    # testTimeInstance.infoSeries.__str__()
 
     for x in testColl.series:
         x.__str__()
@@ -112,3 +128,35 @@ def test():
     print("Made it to the end of the test.")
 
 test()
+=======
+# def test():
+#
+#
+#
+#     # for the third parameter above (the interval) you may need to change it once the AVLoader class is
+#     # expanded to actually implement/make use of the interval attribute
+#
+#
+#     testDate1 = datetime.date(2017, 7, 24)
+#     testDate2 = datetime.date(2017, 7, 27)
+#     testTimeDelta = datetime.timedelta(3)
+#     testDiff = 1440
+#     testColl = Collection("MSFT", testDate1, testDate2, testDiff)
+#
+#     testDate = datetime.date(2017, 7, 26)
+#     # testTimeInstance = TimeInstance("MSFT", asdf, testDate) # need an actual date object, not a string
+#
+#
+#     # testTimeInstance.infoSeries.__str__()
+#
+#     for x in testColl.series:
+#         x.__str__()
+#         x.infoSeries.__str__()
+#
+#
+#
+#
+#     print("Made it to the end of the test.")
+#
+# test()
+>>>>>>> JohnM

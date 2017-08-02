@@ -15,7 +15,7 @@ from neon.callbacks.callbacks import Callbacks
 from neon.transforms import Misclassification
 from neon.util.argparser import NeonArgparser
 
-TRAINING_DURATION_IN_DAYS = 1500
+TRAINING_DURATION_IN_DAYS = 500
 TEST_DURATION_IN_DAYS = 500
 TIME_DIFFERENTIAL = 1440
 NUM_FEATURES = 393
@@ -23,7 +23,7 @@ COMPANY_NAME = 'GOOGL'
 NUM_OUTPUTS = 2
 
 
-
+#enables customization with flags
 parser = NeonArgparser(__doc__)
 args = parser.parse_args()
 
@@ -45,6 +45,23 @@ def timeInstanceToArray(timeInstance):
         inputArray += [1]
     else:
         inputArray+= [0]
+    return inputArray
+
+def timeInstanceToArray(timeInstance):
+    """
+    creates an array of bits given a specific time instance
+    :param timeInstance: a timeInstance object
+    :return: an array of bits representing the time instance
+    """
+
+    inputArray = []
+    # convert timeInstance output to array form and add to inputArray
+    inputArray += floatArray(timeInstance.infoSeries.volume)
+    inputArray += floatArray(timeInstance.infoSeries.currentPrice)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_50)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_100)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_200)
+
     return inputArray
 
 
@@ -96,6 +113,7 @@ def createArrayIterator(companyName, startDate, endDate, timeDifferential):
 
     return ArrayIterator(X=X, y=y, nclass=NUM_OUTPUTS)
 
+
 # create timeDeltas of testDuration and trainingDuration
 trainingDuration = timedelta(days = TRAINING_DURATION_IN_DAYS)
 testDuration = timedelta(days = TEST_DURATION_IN_DAYS)
@@ -132,14 +150,16 @@ cost = GeneralizedCost(costfunc=CrossEntropyMulti())
 # coefficient of 0.9
 optimizer = GradientDescentMomentum(0.1, momentum_coef=0.9)
 
-# does something, look a t the api
+# sets up progress bars
 callbacks = Callbacks(mlp, eval_set=test_set, **args.callback_args)
 
-
+# puts the model together
 mlp.fit(train_set, optimizer=optimizer, num_epochs=args.epochs, cost=cost,
         callbacks=callbacks)
 
+# tests the model with a specific test set
 results = mlp.get_outputs(test_set)
+
 
 error = mlp.eval(test_set, metric=Misclassification())*100
 print('Success Rate = %.1f%%' % (100 - error))
@@ -152,5 +172,6 @@ print('Success Rate = %.1f%%' % (100 - error))
 # out = mlp.get_outputs(todaysData)
 # print(classes[out[0].argmax()] + " %.1f%%" % out[0].amax)
 #
+
 
 

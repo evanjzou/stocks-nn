@@ -3,9 +3,10 @@ import datetime
 import av_loader
 
 class ParsedInfoWith_mavgFlags():
-    def __init__(self, info, date):
+    def __init__(self, info, date, dateString=None):
         self.date = date
-        dateStr = str(date)
+        if dateString is None:
+            self.dateString = str(date)
         self.info = info
         self.volume = float(self.info["Time Series (Daily)"][dateStr]["5. volume"])
         self.open = float(self.info["Time Series (Daily)"][dateStr]["1. open"])

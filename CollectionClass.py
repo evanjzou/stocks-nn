@@ -53,7 +53,6 @@ class Collection:
         # thisThing = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:00")
         thisThing = myTIJSON["Meta Data"]["3. Last Refreshed"]
         if thisThing in myTIJSON['Time Series (Daily)']:
-            print("ooyala")
             self.todaysTI = TimeInstance(self.companyName, myTIJSON, datetime.date.today(), thisThing)
 
 

@@ -106,4 +106,5 @@ class ParsedInfoWith_mavgFlags():
         return now
 
     def __str__(self):
-        print(str(self.vol10Day), str(self.vol3Month), '\n'+str(self.volCompare))
+        print(self.close)
+        # print(str(self.vol10Day), str(self.vol3Month), '\n'+str(self.volCompare))

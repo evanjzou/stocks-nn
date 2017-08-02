@@ -19,7 +19,7 @@ TRAINING_DURATION_IN_DAYS = 1500
 TEST_DURATION_IN_DAYS = 500
 TIME_DIFFERENTIAL = 1440
 NUM_FEATURES = 393
-COMPANY_NAME = 'GOOG'
+COMPANY_NAME = 'GOOGL'
 NUM_OUTPUTS = 2
 
 
@@ -27,6 +27,25 @@ NUM_OUTPUTS = 2
 parser = NeonArgparser(__doc__)
 args = parser.parse_args()
 
+def timeInstanceToArray(timeInstance):
+    inputArray = []
+    # convert timeInstance output to array form and add to inputArray
+    inputArray += floatArray(timeInstance.infoSeries.volume)
+    inputArray += floatArray(timeInstance.infoSeries.currentPrice)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_50)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_100)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_200)
+    inputArray += floatArray(timeInstance.infoSeries.vol10Day)
+    inputArray += floatArray(timeInstance.infoSeries.vol3Month)
+    if timeInstance.infoSeries.volCompare:
+        inputArray += [1]
+    else:
+        inputArray += [0]
+    if timeInstance.infoSeries.mavgCompare:
+        inputArray += [1]
+    else:
+        inputArray+= [0]
+    return inputArray
 
 
 def floatArray(float):
@@ -60,14 +79,7 @@ def createArrayIterator(companyName, startDate, endDate, timeDifferential):
     # create a 2D array, each row representing a timeseries as an array
     XList = []
     for timeInstance in timeInstances:
-        inputArray = []
-        # convert timeInstance output to array form and add to inputArray
-        inputArray += floatArray(timeInstance.infoSeries.volume)
-        inputArray += floatArray(timeInstance.infoSeries.currentPrice)
-        inputArray += floatArray(timeInstance.infoSeries.mavg_50)
-        inputArray += floatArray(timeInstance.infoSeries.mavg_100)
-        inputArray += floatArray(timeInstance.infoSeries.mavg_200)
-        XList.append(inputArray)
+        XList.append(timeInstanceToArray(timeInstance))
     X = np.array(XList)
 
     # create a 2D array of 1hot collumns for buy/sell
@@ -129,17 +141,16 @@ mlp.fit(train_set, optimizer=optimizer, num_epochs=args.epochs, cost=cost,
 
 results = mlp.get_outputs(test_set)
 
-
-<<<<<<< HEAD
-# show today's prediction
-
-company = Collection(COMPANY_NAME, trainStartDate, date.today(), TIME_DIFFERENTIAL)
-today = np.array(timeInstanceToArray(company.today))
-todaysData = ArrayIterator(today, None, nclass=NUM_OUTPUTS)
-classes = ["sell", "buy"]
-out = mlp.get_outputs(todaysData)
-print(classes[out[0].argmax()] + " %.1f%%" % out[0].amax)
-=======
 error = mlp.eval(test_set, metric=Misclassification())*100
-print('Misclassification error = %.1f%%' % error)
->>>>>>> johnny-branch
+print('Success Rate = %.1f%%' % (100 - error))
+
+# # show today's prediction
+# company = Collection(COMPANY_NAME, trainStartDate, date.today(), TIME_DIFFERENTIAL)
+# today = np.array(timeInstanceToArray(company.today))
+# todaysData = ArrayIterator(today, None, nclass=NUM_OUTPUTS)
+# classes = ["sell", "buy"]
+# out = mlp.get_outputs(todaysData)
+# print(classes[out[0].argmax()] + " %.1f%%" % out[0].amax)
+#
+
+

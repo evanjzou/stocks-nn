@@ -2,22 +2,9 @@ import ParsedInfo
 import av_loader
 from datetime import timedelta
 import datetime
+from ParsedInfoClassPlusFields import ParsedInfoWith_mavgFlags
 
-<<<<<<< HEAD
-'''
-class Collection:
-    # has a series, and a companyName
 
-    series = []  # array of TimeInstance objects
-
-    def __init__(self, companyName):
-        self.companyName = companyName
-
-    def addTimeInstance(self, timeInstance):
-        self.series.append(timeInstance)
-'''
-=======
->>>>>>> JohnM
 
 class Collection:
     series = []
@@ -53,14 +40,9 @@ class Collection:
             # secToDate = datetime.datetime.fromtimestamp(secsToAdd) # if doesn't work, might be wrong timezone
             secToDate = self.startDate + datetime.timedelta(0, secsToAdd)
 
-<<<<<<< HEAD
-            myTI = TimeInstance(self.companyName, myTIJSON, secToDate)
-            self.addTimeInstance(myTI)
-=======
             if str(secToDate) in myTIJSON['Time Series (Daily)']:
                 myTI = TimeInstance(self.companyName, myTIJSON, secToDate)
                 self.addTimeInstance(myTI)
->>>>>>> JohnM
 
             i = i+1
 
@@ -84,7 +66,7 @@ class TimeInstance:
         self.flag = False
         self.timeToSearch = timeToSearch
 
-        self.infoSeries = ParsedInfo.ParsedInfo(unparsedJSON, timeToSearch)
+        self.infoSeries = ParsedInfoWith_mavgFlags(unparsedJSON, timeToSearch)
 
         '''
         for x in infoSeries:
@@ -97,38 +79,6 @@ class TimeInstance:
 
 
 
-<<<<<<< HEAD
-def test():
-
-
-
-    # for the third parameter above (the interval) you may need to change it once the AVLoader class is
-    # expanded to actually implement/make use of the interval attribute
-    
-
-    testDate1 = datetime.date(2017, 7, 24)
-    testDate2 = datetime.date(2017, 7, 27)
-    testTimeDelta = datetime.timedelta(3)
-    testDiff = 1440
-    testColl = Collection("MSFT", testDate1, testDate2, testDiff)
-
-    testDate = datetime.date(2017, 7, 26)
-    # testTimeInstance = TimeInstance("MSFT", asdf, testDate) # need an actual date object, not a string
-
-
-    # testTimeInstance.infoSeries.__str__()
-
-    for x in testColl.series:
-        x.__str__()
-        x.infoSeries.__str__()
-
-
-
-
-    print("Made it to the end of the test.")
-
-test()
-=======
 # def test():
 #
 #
@@ -159,4 +109,4 @@ test()
 #     print("Made it to the end of the test.")
 #
 # test()
->>>>>>> JohnM
+

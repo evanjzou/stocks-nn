@@ -164,14 +164,16 @@ results = mlp.get_outputs(test_set)
 error = mlp.eval(test_set, metric=Misclassification())*100
 print('Success Rate = %.1f%%' % (100 - error))
 
-# # show today's prediction
-# company = Collection(COMPANY_NAME, trainStartDate, date.today(), TIME_DIFFERENTIAL)
-# today = np.array(timeInstanceToArray(company.today))
-# todaysData = ArrayIterator(today, None, nclass=NUM_OUTPUTS)
-# classes = ["sell", "buy"]
-# out = mlp.get_outputs(todaysData)
-# print(classes[out[0].argmax()] + " %.1f%%" % out[0].amax)
-#
+# show today's prediction
+company = Collection(COMPANY_NAME, trainStartDate, date.today(), TIME_DIFFERENTIAL)
+today = timeInstanceToArray(company.todaysTI)
+x_new = np.zeros((today.size(),NUM_FEATURES), dtype=np.float32)
+x_new[0] = np.array(timeInstanceToArray(company.todaysTI))
+todaysData = ArrayIterator(today, None, nclass=NUM_OUTPUTS)
+classes = ["sell", "buy"]
+out = mlp.get_outputs(todaysData)
+print(classes[out[0].argmax()] + " %.1f%%" % out[0].amax)
+
 
 
 

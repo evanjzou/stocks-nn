@@ -6,12 +6,12 @@ class ParsedInfo:
     def __init__(self, info, date, dateString=None):
         self.date = date
         if dateString is None:
-            self.dateString = str(date)
+            self.dateStr = str(date)
 
         self.info = info
-        self.volume = float(self.info["Time Series (Daily)"][date]["5. volume"])
-        self.open = float(self.info["Time Series (Daily)"][date]["1. open"])
-        self.close = float(self.info["Time Series (Daily)"][date]["4. close"])
+        self.volume = float(self.info["Time Series (Daily)"][dateStr]["5. volume"])
+        self.open = float(self.info["Time Series (Daily)"][dateStr]["1. open"])
+        self.close = float(self.info["Time Series (Daily)"][dateStr]["4. close"])
         self.percentChange = (self.close - self.open)/self.open
 
         mostRecentDate = info["Meta Data"]["3. Last Refreshed"]

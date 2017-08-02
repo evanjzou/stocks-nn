@@ -3,15 +3,19 @@ import datetime
 import av_loader
 
 class ParsedInfoWith_mavgFlags():
-    def __init__(self, info, date, dateString=None):
+    def __init__(self, info, date, dateStr=None):
         self.date = date
-        if dateString is None:
-            self.dateString = str(date)
+        if dateStr is None:
+            self.dateStr = str(date)
+        else:
+            self.dateStr = dateStr
         self.info = info
-        self.volume = float(self.info["Time Series (Daily)"][dateStr]["5. volume"])
-        self.open = float(self.info["Time Series (Daily)"][dateStr]["1. open"])
-        self.close = float(self.info["Time Series (Daily)"][dateStr]["4. close"])
+        self.volume = float(self.info["Time Series (Daily)"][self.dateStr]["5. volume"])
+        self.open = float(self.info["Time Series (Daily)"][self.dateStr]["1. open"])
+        self.close = float(self.info["Time Series (Daily)"][self.dateStr]["4. close"])
         self.percentChange = (self.close - self.open)/self.open
+        self.currentPrice = 0
+        mostRecentDate = datetime.date.today()
 
         if dateStr in info['Time Series (Daily)']:
              mostRecentDate = info["Meta Data"]["3. Last Refreshed"]
@@ -22,6 +26,7 @@ class ParsedInfoWith_mavgFlags():
         else:
             while not dateStr in info['Time Series (Daily)']:
                 mostRecentDate = mostRecentDate - datetime.timedelta(1)
+                dateStr = str(mostRecentDate)
         #         self.currentPrice = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
         #         self.todaysVolume = float(self.info["Time Series (Daily)"][mostRecentDate]["5. volume"])
         #         self.todaysOpen = float(self.info["Time Series (Daily)"][mostRecentDate]["1. open"])

@@ -15,7 +15,7 @@ from neon.callbacks.callbacks import Callbacks
 from neon.transforms import Misclassification
 from neon.util.argparser import NeonArgparser
 
-TRAINING_DURATION_IN_DAYS = 500
+TRAINING_DURATION_IN_DAYS = 1500
 TEST_DURATION_IN_DAYS = 500
 TIME_DIFFERENTIAL = 1440
 NUM_FEATURES = 393
@@ -167,12 +167,12 @@ print('Success Rate = %.1f%%' % (100 - error))
 # show today's prediction
 company = Collection(COMPANY_NAME, trainStartDate, date.today(), TIME_DIFFERENTIAL)
 today = timeInstanceToArray(company.todaysTI)
-x_new = np.zeros((today.size(),NUM_FEATURES), dtype=np.float32)
-x_new[0] = np.array(timeInstanceToArray(company.todaysTI))
-todaysData = ArrayIterator(today, None, nclass=NUM_OUTPUTS)
+x_new = np.zeros((TEST_DURATION_IN_DAYS, len(today)), dtype=np.int)
+x_new[0] = np.array(today)
+todaysData = ArrayIterator(x_new, None, nclass=NUM_OUTPUTS)
 classes = ["sell", "buy"]
 out = mlp.get_outputs(todaysData)
-print(classes[out[0].argmax()] + " %.1f%%" % out[0].amax)
+print(classes[out[0].argmax()] + " %.1f%%" % (100 * np.amax(out[0])))
 
 
 

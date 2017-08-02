@@ -19,14 +19,50 @@ TRAINING_DURATION_IN_DAYS = 1500
 TEST_DURATION_IN_DAYS = 500
 TIME_DIFFERENTIAL = 1440
 NUM_FEATURES = 393
-COMPANY_NAME = 'GOOG'
+COMPANY_NAME = 'GOOGL'
 NUM_OUTPUTS = 2
 
 
-
+#enables customization with flags
 parser = NeonArgparser(__doc__)
 args = parser.parse_args()
 
+def timeInstanceToArray(timeInstance):
+    inputArray = []
+    # convert timeInstance output to array form and add to inputArray
+    inputArray += floatArray(timeInstance.infoSeries.volume)
+    inputArray += floatArray(timeInstance.infoSeries.currentPrice)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_50)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_100)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_200)
+    inputArray += floatArray(timeInstance.infoSeries.vol10Day)
+    inputArray += floatArray(timeInstance.infoSeries.vol3Month)
+    if timeInstance.infoSeries.volCompare:
+        inputArray += [1]
+    else:
+        inputArray += [0]
+    if timeInstance.infoSeries.mavgCompare:
+        inputArray += [1]
+    else:
+        inputArray+= [0]
+    return inputArray
+
+def timeInstanceToArray(timeInstance):
+    """
+    creates an array of bits given a specific time instance
+    :param timeInstance: a timeInstance object
+    :return: an array of bits representing the time instance
+    """
+
+    inputArray = []
+    # convert timeInstance output to array form and add to inputArray
+    inputArray += floatArray(timeInstance.infoSeries.volume)
+    inputArray += floatArray(timeInstance.infoSeries.currentPrice)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_50)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_100)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_200)
+
+    return inputArray
 
 
 def floatArray(float):
@@ -60,14 +96,7 @@ def createArrayIterator(companyName, startDate, endDate, timeDifferential):
     # create a 2D array, each row representing a timeseries as an array
     XList = []
     for timeInstance in timeInstances:
-        inputArray = []
-        # convert timeInstance output to array form and add to inputArray
-        inputArray += floatArray(timeInstance.infoSeries.volume)
-        inputArray += floatArray(timeInstance.infoSeries.currentPrice)
-        inputArray += floatArray(timeInstance.infoSeries.mavg_50)
-        inputArray += floatArray(timeInstance.infoSeries.mavg_100)
-        inputArray += floatArray(timeInstance.infoSeries.mavg_200)
-        XList.append(inputArray)
+        XList.append(timeInstanceToArray(timeInstance))
     X = np.array(XList)
 
     # create a 2D array of 1hot collumns for buy/sell
@@ -83,6 +112,7 @@ def createArrayIterator(companyName, startDate, endDate, timeDifferential):
 
 
     return ArrayIterator(X=X, y=y, nclass=NUM_OUTPUTS)
+
 
 # create timeDeltas of testDuration and trainingDuration
 trainingDuration = timedelta(days = TRAINING_DURATION_IN_DAYS)
@@ -120,15 +150,30 @@ cost = GeneralizedCost(costfunc=CrossEntropyMulti())
 # coefficient of 0.9
 optimizer = GradientDescentMomentum(0.1, momentum_coef=0.9)
 
-# does something, look a t the api
+# sets up progress bars
 callbacks = Callbacks(mlp, eval_set=test_set, **args.callback_args)
 
-
+# puts the model together
 mlp.fit(train_set, optimizer=optimizer, num_epochs=args.epochs, cost=cost,
         callbacks=callbacks)
 
+# tests the model with a specific test set
 results = mlp.get_outputs(test_set)
 
 
 error = mlp.eval(test_set, metric=Misclassification())*100
-print('Misclassification error = %.1f%%' % error)
+print('Success Rate = %.1f%%' % (100 - error))
+
+# show today's prediction
+company = Collection(COMPANY_NAME, trainStartDate, date.today(), TIME_DIFFERENTIAL)
+today = timeInstanceToArray(company.todaysTI)
+x_new = np.zeros((TEST_DURATION_IN_DAYS, len(today)), dtype=np.int)
+x_new[0] = np.array(today)
+todaysData = ArrayIterator(x_new, None, nclass=NUM_OUTPUTS)
+classes = ["sell", "buy"]
+out = mlp.get_outputs(todaysData)
+print(classes[out[0].argmax()] + " %.1f%%" % (100 * np.amax(out[0])))
+
+
+
+

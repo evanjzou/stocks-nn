@@ -3,46 +3,52 @@ import datetime
 import av_loader
 
 class ParsedInfoWith_mavgFlags():
-    def __init__(self, info, date):
+    def __init__(self, info, date, dateStr=None):
         self.date = date
-        dateStr = str(date)
+        if dateStr is None:
+            self.dateStr = str(date)
+        else:
+            self.dateStr = dateStr
         self.info = info
-        self.volume = float(self.info["Time Series (Daily)"][dateStr]["5. volume"])
-        self.open = float(self.info["Time Series (Daily)"][dateStr]["1. open"])
-        self.close = float(self.info["Time Series (Daily)"][dateStr]["4. close"])
+        self.volume = float(self.info["Time Series (Daily)"][self.dateStr]["5. volume"])
+        self.open = float(self.info["Time Series (Daily)"][self.dateStr]["1. open"])
+        self.close = float(self.info["Time Series (Daily)"][self.dateStr]["4. close"])
         self.percentChange = (self.close - self.open)/self.open
+        self.currentPrice = 0
+        mostRecentDate = datetime.date.today()
 
-        if str(now) in res['Time Series (Daily)']:
-            mostRecentDate = info["Meta Data"]["3. Last Refreshed"]
-            self.currentPrice = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
-            self.todaysVolume = float(self.info["Time Series (Daily)"][mostRecentDate]["5. volume"])
-            self.todaysOpen = float(self.info["Time Series (Daily)"][mostRecentDate]["1. open"])
-            self.todaysClose = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
-        else
-            while not str(now) in res['Time Series (Daily)']:
-                mostRecentDate = curr - datetime.timedelta(1)
-                self.currentPrice = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
-                self.todaysVolume = float(self.info["Time Series (Daily)"][mostRecentDate]["5. volume"])
-                self.todaysOpen = float(self.info["Time Series (Daily)"][mostRecentDate]["1. open"])
-                self.todaysClose = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
+        if dateStr in info['Time Series (Daily)']:
+             mostRecentDate = info["Meta Data"]["3. Last Refreshed"]
+             self.currentPrice = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
+        #     self.todaysVolume = float(self.info["Time Series (Daily)"][mostRecentDate]["5. volume"])
+        #     self.todaysOpen = float(self.info["Time Series (Daily)"][mostRecentDate]["1. open"])
+        #     self.todaysClose = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
+        else:
+            while not dateStr in info['Time Series (Daily)']:
+                mostRecentDate = mostRecentDate - datetime.timedelta(1)
+                dateStr = str(mostRecentDate)
+        #         self.currentPrice = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
+        #         self.todaysVolume = float(self.info["Time Series (Daily)"][mostRecentDate]["5. volume"])
+        #         self.todaysOpen = float(self.info["Time Series (Daily)"][mostRecentDate]["1. open"])
+        #         self.todaysClose = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
 
         self.__moving_average(self.info)
         self.__find10Day3MonthVol(self.info)
 
-        self.mavgCompare = self.set_mavgCompare
-        self.volCompare = self.set_volumeCompare
+        self.mavgCompare = self.set_mavgCompare()
+        self.volCompare = self.set_volumeCompare()
 
     def set_mavgCompare(self):
-        if self.mavg_50 > self.mavg_100 and self.mavg_100 > self.mavg_200 and self.mavg_50 > self.mavg_200
-            self.mavgComapare = True
-        else
-            self.mavgComapare = False
+        if self.mavg_50 > self.mavg_100 and self.mavg_100 > self.mavg_200 and self.mavg_50 > self.mavg_200:
+            return True
+        else:
+            return False
     
     def set_volumeCompare(self):
-        if self.vol10Day > self.vol3Month
-            self.mavgComapare = True
-        else
-            self.mavgComapare = False
+        if self.vol10Day > self.vol3Month:
+            return True
+        else:
+            return False
 
     def __find10Day3MonthVol(self, res):
         current_day = self.date
@@ -100,4 +106,5 @@ class ParsedInfoWith_mavgFlags():
         return now
 
     def __str__(self):
-        print(self.volume)
+        print(self.close)
+        # print(str(self.vol10Day), str(self.vol3Month), '\n'+str(self.volCompare))

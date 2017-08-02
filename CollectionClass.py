@@ -2,22 +2,9 @@ import ParsedInfo
 import av_loader
 from datetime import timedelta
 import datetime
+from ParsedInfoClassPlusFields import ParsedInfoWith_mavgFlags
 
-<<<<<<< HEAD
-'''
-class Collection:
-    # has a series, and a companyName
 
-    series = []  # array of TimeInstance objects
-
-    def __init__(self, companyName):
-        self.companyName = companyName
-
-    def addTimeInstance(self, timeInstance):
-        self.series.append(timeInstance)
-'''
-=======
->>>>>>> JohnM
 
 class Collection:
     series = []
@@ -53,16 +40,37 @@ class Collection:
             # secToDate = datetime.datetime.fromtimestamp(secsToAdd) # if doesn't work, might be wrong timezone
             secToDate = self.startDate + datetime.timedelta(0, secsToAdd)
 
-<<<<<<< HEAD
-            myTI = TimeInstance(self.companyName, myTIJSON, secToDate)
-            self.addTimeInstance(myTI)
-=======
             if str(secToDate) in myTIJSON['Time Series (Daily)']:
-                myTI = TimeInstance(self.companyName, myTIJSON, secToDate)
-                self.addTimeInstance(myTI)
->>>>>>> JohnM
+                previousTimeDiffTI = None
+                if i > 0:
+                    secsToAdd2 = (i - 1) * timeDiffSeconds
+                    secToDate2 = self.startDate + datetime.timedelta(0, secsToAdd2)
+                    print(str(secToDate2))
+                    if str(secToDate2) in myTIJSON['Time Series (Daily)']:
+                        previousTimeDiffTI = TimeInstance(self.companyName, myTIJSON, secToDate2)
 
-            i = i+1
+                myTI = TimeInstance(self.companyName, myTIJSON, secToDate, previousTimeDiffTI=previousTimeDiffTI)
+                self.addTimeInstance(myTI)
+
+
+
+            i = i + 1
+
+        todaysDate = datetime.date.today()
+        yearStart = datetime.date(todaysDate.year, 1, 1)
+        secToToday = (todaysDate-yearStart).total_seconds()
+        thisDate = yearStart + datetime.timedelta(0, secToToday)
+
+        # thisTime = str(datetime.date.today()) + str(datetime.time.hour) + str(datetime.time.minute)
+        # mostRecentDateTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:00")
+        mostRecentDateTime = myTIJSON["Meta Data"]["3. Last Refreshed"]
+        if mostRecentDateTime in myTIJSON['Time Series (Daily)']:
+            print(datetime.date.today())
+            self.todaysTI = TimeInstance(self.companyName, myTIJSON, datetime.date.today(), mostRecentDateTime)
+        else:
+            while not mostRecentDateTime in myTIJSON['Time Series (Daily)']:
+                todaysDate = todaysDate - datetime.timedelta(1)
+
 
         self.setFlags()
 
@@ -76,15 +84,19 @@ class Collection:
         self.series.append(timeInstance)
 
 
+
 class TimeInstance:
     ''' has a companyName, a flag, and a timeToSearch '''
 
-    def __init__(self, companyName, unparsedJSON, timeToSearch):
+    def __init__(self, companyName, unparsedJSON, timeToSearch, dateStr=None, previousTimeDiffTI=None):
         self.companyName = companyName
         self.flag = False
         self.timeToSearch = timeToSearch
+        self.previousTimeDiffTI = previousTimeDiffTI
 
-        self.infoSeries = ParsedInfo.ParsedInfo(unparsedJSON, timeToSearch)
+        if dateStr != None:
+            dateStr = str(dateStr)
+        self.infoSeries = ParsedInfoWith_mavgFlags(unparsedJSON, timeToSearch, dateStr)
 
         '''
         for x in infoSeries:
@@ -93,18 +105,42 @@ class TimeInstance:
         '''
 
     def __str__(self):
-        print(self.timeToSearch, self.flag)
+        if self.previousTimeDiffTI != None:
+            (self.previousTimeDiffTI).infoSeries.__str__()
+        # print(self.timeToSearch, self.flag)
 
 
 
-<<<<<<< HEAD
+# def test():
+#     # for the third parameter above (the interval) you may need to change it once the AVLoader class is
+#     # expanded to actually implement/make use of the interval attribute
+#
+#
+#     testDate1 = datetime.date(2017, 7, 24)
+#     testDate2 = datetime.date(2017, 7, 27)
+#     testTimeDelta = datetime.timedelta(3)
+#     testDiff = 1440
+#     testColl = Collection("MSFT", testDate1, testDate2, testDiff)
+#
+#     testDate = datetime.date(2017, 7, 26)
+#     # testTimeInstance = TimeInstance("MSFT", asdf, testDate) # need an actual date object, not a string
+#
+#     # testTimeInstance.infoSeries.__str__()
+#
+#     for x in testColl.series:
+#         x.__str__()
+#         x.infoSeries.__str__()
+#
+#     testColl.todaysTI.__str__()
+#     testColl.todaysTI.infoSeries.__str__()
+#
+#     print("Made it to the end of the test.")
+#
+
 def test():
-
-
-
     # for the third parameter above (the interval) you may need to change it once the AVLoader class is
     # expanded to actually implement/make use of the interval attribute
-    
+
 
     testDate1 = datetime.date(2017, 7, 24)
     testDate2 = datetime.date(2017, 7, 27)
@@ -120,43 +156,8 @@ def test():
 
     for x in testColl.series:
         x.__str__()
-        x.infoSeries.__str__()
-
-
-
+        # x.infoSeries.__str__()
 
     print("Made it to the end of the test.")
 
 test()
-=======
-# def test():
-#
-#
-#
-#     # for the third parameter above (the interval) you may need to change it once the AVLoader class is
-#     # expanded to actually implement/make use of the interval attribute
-#
-#
-#     testDate1 = datetime.date(2017, 7, 24)
-#     testDate2 = datetime.date(2017, 7, 27)
-#     testTimeDelta = datetime.timedelta(3)
-#     testDiff = 1440
-#     testColl = Collection("MSFT", testDate1, testDate2, testDiff)
-#
-#     testDate = datetime.date(2017, 7, 26)
-#     # testTimeInstance = TimeInstance("MSFT", asdf, testDate) # need an actual date object, not a string
-#
-#
-#     # testTimeInstance.infoSeries.__str__()
-#
-#     for x in testColl.series:
-#         x.__str__()
-#         x.infoSeries.__str__()
-#
-#
-#
-#
-#     print("Made it to the end of the test.")
-#
-# test()
->>>>>>> JohnM

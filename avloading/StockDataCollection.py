@@ -35,6 +35,9 @@ class StockTimeSeries:
                 current_day = next_day_back(stock_data, current_day)
             except av_loader.TimeoutException:
                 break
+        for i in range(len(self.series)):
+            if i != len(self.series) - 1:
+                self.series[i].prev = self.series[i + 1]
         self.series.reverse()
 
     def __str__(self):
@@ -47,10 +50,9 @@ class TimeInstance:
         self.info = StockInfo(time, stock_data, is_today)
         self.interval = interval
         self.prev = None
-
-    def set_prev(self, prev):
-        """Sets the previous time instance to prev"""
-        self.prev = prev
+        self.will_increase = False
+        self.vol_compare = False
+        self.mavg_compare = False
 
     def __str__(self):
         return str(self.info)

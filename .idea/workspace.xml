@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a0768721-f3e5-4541-b71d-76375df89430" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/stocks-nn.iml" afterPath="$PROJECT_DIR$/.idea/stocks-nn.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TestCollectionHierarchy.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TimeInstanceClasses.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CollectionClass.py" afterPath="$PROJECT_DIR$/CollectionClass.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ParsedInfoClassPlusFields.py" afterPath="$PROJECT_DIR$/ParsedInfoClassPlusFields.py" />
     </list>
     <ignored path="stocks-nn.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -49,18 +50,42 @@
       <file leaf-file-name="dataiterator.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neon/data/dataiterator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1734">
+            <state relative-caret-position="550">
               <caret line="105" column="36" lean-forward="false" selection-start-line="105" selection-start-column="36" selection-end-line="105" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CollectionClass.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CollectionClass.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CollectionClass.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+            <state relative-caret-position="-192">
+              <caret line="191" column="29" lean-forward="true" selection-start-line="191" selection-start-column="29" selection-end-line="191" selection-end-column="29" />
+              <folding>
+                <element signature="e#0#17#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TimeInstanceClasses.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TimeInstanceClasses.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="709">
+              <caret line="50" column="27" lean-forward="false" selection-start-line="50" selection-start-column="27" selection-end-line="50" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#17#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestCollectionHierarchy.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/TestCollectionHierarchy.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="714">
+              <caret line="42" column="43" lean-forward="true" selection-start-line="42" selection-start-column="43" selection-end-line="42" selection-end-column="43" />
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
               </folding>
@@ -71,8 +96,8 @@
       <file leaf-file-name="ParsedInfoClassPlusFields.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ParsedInfoClassPlusFields.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="476">
+              <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -97,6 +122,15 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>todaysTI</find>
+      <find>stdVol</find>
+      <find>setS</find>
+      <find>timeI</find>
+      <find>print</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -107,12 +141,15 @@
         <option value="$PROJECT_DIR$/ParsedInfo.py" />
         <option value="$PROJECT_DIR$/data_interpreter.py" />
         <option value="$PROJECT_DIR$/CollectionClass.py" />
+        <option value="$PROJECT_DIR$/ParsedInfoClassPlusFields.py" />
+        <option value="$PROJECT_DIR$/TimeInstanceClasses.py" />
+        <option value="$PROJECT_DIR$/TestCollectionHierarchy.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="width" value="1280" />
-    <option name="height" value="788" />
+    <option name="width" value="683" />
+    <option name="height" value="728" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -166,7 +203,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.CollectionClass">
+  <component name="RunManager" selected="Python.TestCollectionHierarchy">
     <configuration name="CollectionClass" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -180,6 +217,23 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="stocks-nn" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CollectionClass.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <configuration name="TestCollectionHierarchy" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="stocks-nn" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestCollectionHierarchy.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -306,9 +360,14 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Python.CollectionClass" />
+      <item index="1" class="java.lang.String" itemvalue="Python.TestCollectionHierarchy" />
+    </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Python.CollectionClass" />
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Python.TestCollectionHierarchy" />
+        <item index="1" class="java.lang.String" itemvalue="Python.CollectionClass" />
       </list>
     </recent_temporary>
   </component>
@@ -329,12 +388,12 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.100292824" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2551181" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24409449" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -474,14 +533,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/neon/backends/nervanacpu.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data_interpreter.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="935">
@@ -494,13 +545,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/neon/data/dataiterator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1734">
+        <state relative-caret-position="550">
           <caret line="105" column="36" lean-forward="false" selection-start-line="105" selection-start-column="36" selection-end-line="105" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ParsedInfoClassPlusFields.py">
+    <entry file="file://$PROJECT_DIR$/neon/backends/nervanacpu.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -508,10 +559,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ParsedInfoClassPlusFields.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TimeInstanceClasses.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="709">
+          <caret line="50" column="27" lean-forward="false" selection-start-line="50" selection-start-column="27" selection-end-line="50" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CollectionClass.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        <state relative-caret-position="-192">
+          <caret line="191" column="29" lean-forward="true" selection-start-line="191" selection-start-column="29" selection-end-line="191" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestCollectionHierarchy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="42" column="43" lean-forward="true" selection-start-line="42" selection-start-column="43" selection-end-line="42" selection-end-column="43" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
           </folding>

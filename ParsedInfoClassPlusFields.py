@@ -15,18 +15,22 @@ class ParsedInfoWith_mavgFlags():
         self.close = float(self.info["Time Series (Daily)"][self.dateStr]["4. close"])
         self.percentChange = (self.close - self.open)/self.open
         self.currentPrice = 0
-        mostRecentDate = datetime.date.today()
 
-        if dateStr in info['Time Series (Daily)']:
-             mostRecentDate = info["Meta Data"]["3. Last Refreshed"]
-             self.currentPrice = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
-        #     self.todaysVolume = float(self.info["Time Series (Daily)"][mostRecentDate]["5. volume"])
-        #     self.todaysOpen = float(self.info["Time Series (Daily)"][mostRecentDate]["1. open"])
-        #     self.todaysClose = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
-        else:
-            while not dateStr in info['Time Series (Daily)']:
-                mostRecentDate = mostRecentDate - datetime.timedelta(1)
-                dateStr = str(mostRecentDate)
+
+        mostRecentDate = datetime.date.today()
+        # if dateStr in info['Time Series (Daily)']:
+        #      mostRecentDate = info["Meta Data"]["3. Last Refreshed"]
+        #      self.currentPrice = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
+        # #     self.todaysVolume = float(self.info["Time Series (Daily)"][mostRecentDate]["5. volume"])
+        # #     self.todaysOpen = float(self.info["Time Series (Daily)"][mostRecentDate]["1. open"])
+        # #     self.todaysClose = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
+        # else:
+        while not dateStr in info['Time Series (Daily)']:
+            mostRecentDate = mostRecentDate - datetime.timedelta(1)
+            dateStr = str(mostRecentDate)
+
+        mostRecentDate = info["Meta Data"]["3. Last Refreshed"]
+        self.currentPrice = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
         #         self.currentPrice = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
         #         self.todaysVolume = float(self.info["Time Series (Daily)"][mostRecentDate]["5. volume"])
         #         self.todaysOpen = float(self.info["Time Series (Daily)"][mostRecentDate]["1. open"])
@@ -37,6 +41,8 @@ class ParsedInfoWith_mavgFlags():
 
         self.mavgCompare = self.set_mavgCompare()
         self.volCompare = self.set_volumeCompare()
+
+
 
     def set_mavgCompare(self):
         if self.mavg_50 > self.mavg_100 and self.mavg_100 > self.mavg_200 and self.mavg_50 > self.mavg_200:

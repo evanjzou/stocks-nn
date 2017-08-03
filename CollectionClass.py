@@ -5,14 +5,13 @@ import datetime
 from ParsedInfoClassPlusFields import ParsedInfoWith_mavgFlags
 import statistics
 
-
+#add a std function
+#timeout excpetion
 
 class Collection:
     series = []
-
-    statistics.stdev.(series.infoSeries.close)
-
-        
+    avgArray = []
+    volArray = []
 
     def __init__(self, inCompanyName, inStartDate, inEndDate, inTimeDifferential):
         ''' inTimeDifferential should be in minutes '''
@@ -20,8 +19,9 @@ class Collection:
         self.startDate = inStartDate
         self.endDate = inEndDate
         self.timeDifferential = inTimeDifferential
-        self.stdPrice = statistics.stdev.(series.infoSeries.close)
-        self.stdVol = statistics.stdev.(series.infoSeries.volume)
+
+        self.stdPrice = 0
+        self.stdVol = 0
 
         myTimeDelta = datetime.timedelta()
         myTimeDelta = inEndDate-inStartDate
@@ -81,6 +81,7 @@ class Collection:
 
         self.setFlags()
         self.setPriceDiff()
+        self.setSTDFields()
 
     def setFlags(self):
         for i in range(0, len(self.series)-1):
@@ -89,13 +90,23 @@ class Collection:
     
     def setPriceDiff(self):
         for i in range(0, len(self.series)-1):
-            diff = self.series[i].infoSeries.close - self.series[i+1].infoSeries.close:
-                self.series[i+1].previousTimeDiffPrice = diff
+            diff = self.series[i].infoSeries.close - self.series[i+1].infoSeries.close
+            self.series[i+1].previousTimeDiffPrice = diff
 
     def addTimeInstance(self, timeInstance):
-
         self.series.append(timeInstance)
 
+    def setSTDFields(self):
+        for i in self.series:
+            self.avgArray.append(i.infoSeries.close)
+            self.volArray.append(i.infoSeries.volume)
+
+        self.stdPrice = statistics.stdev(self.avgArray)
+        self.stdVol = statistics.stdev(self.volArray)
+
+    def __str__(self):
+        print(self.stdPrice)
+        print(self.stdVol)
 
 
 class TimeInstance:
@@ -107,7 +118,7 @@ class TimeInstance:
         self.timeToSearch = timeToSearch
         self.previousTimeDiffTI = previousTimeDiffTI
 
-        self.previousTimeDiffPrice = 
+        self.previousTimeDiffPrice = 0
 
         if dateStr != None:
             dateStr = str(dateStr)
@@ -166,11 +177,11 @@ def test():
     testDate = datetime.date(2017, 7, 26)
     # testTimeInstance = TimeInstance("MSFT", asdf, testDate) # need an actual date object, not a string
 
-
+    testColl.__str__()
     # testTimeInstance.infoSeries.__str__()
-
-    for x in testColl.series:
-        x.__str__()
+    #
+    # for x in testColl.series:
+    #     x.__str__()
         # x.infoSeries.__str__()
 
     print("Made it to the end of the test.")

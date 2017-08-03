@@ -3,11 +3,16 @@ import av_loader
 from datetime import timedelta
 import datetime
 from ParsedInfoClassPlusFields import ParsedInfoWith_mavgFlags
+import statistics
 
 
 
 class Collection:
     series = []
+
+    statistics.stdev.(series.infoSeries.close)
+
+        
 
     def __init__(self, inCompanyName, inStartDate, inEndDate, inTimeDifferential):
         ''' inTimeDifferential should be in minutes '''
@@ -15,6 +20,8 @@ class Collection:
         self.startDate = inStartDate
         self.endDate = inEndDate
         self.timeDifferential = inTimeDifferential
+        self.stdPrice = statistics.stdev.(series.infoSeries.close)
+        self.stdVol = statistics.stdev.(series.infoSeries.volume)
 
         myTimeDelta = datetime.timedelta()
         myTimeDelta = inEndDate-inStartDate
@@ -73,11 +80,17 @@ class Collection:
 
 
         self.setFlags()
+        self.setPriceDiff()
 
     def setFlags(self):
         for i in range(0, len(self.series)-1):
             if self.series[i].infoSeries.close < self.series[i+1].infoSeries.close:
                 self.series[i].flag = True
+    
+    def setPriceDiff(self):
+        for i in range(0, len(self.series)-1):
+            diff = self.series[i].infoSeries.close - self.series[i+1].infoSeries.close:
+                self.series[i+1].previousTimeDiffPrice = diff
 
     def addTimeInstance(self, timeInstance):
 
@@ -93,6 +106,8 @@ class TimeInstance:
         self.flag = False
         self.timeToSearch = timeToSearch
         self.previousTimeDiffTI = previousTimeDiffTI
+
+        self.previousTimeDiffPrice = 
 
         if dateStr != None:
             dateStr = str(dateStr)

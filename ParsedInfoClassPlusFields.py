@@ -18,13 +18,7 @@ class ParsedInfoWith_mavgFlags():
 
 
         mostRecentDate = datetime.date.today()
-        # if dateStr in info['Time Series (Daily)']:
-        #      mostRecentDate = info["Meta Data"]["3. Last Refreshed"]
-        #      self.currentPrice = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
-        # #     self.todaysVolume = float(self.info["Time Series (Daily)"][mostRecentDate]["5. volume"])
-        # #     self.todaysOpen = float(self.info["Time Series (Daily)"][mostRecentDate]["1. open"])
-        # #     self.todaysClose = float(self.info["Time Series (Daily)"][mostRecentDate]["4. close"])
-        # else:
+
         while not dateStr in info['Time Series (Daily)']:
             mostRecentDate = mostRecentDate - datetime.timedelta(1)
             dateStr = str(mostRecentDate)

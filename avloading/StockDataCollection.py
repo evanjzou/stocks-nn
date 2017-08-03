@@ -38,6 +38,10 @@ class StockTimeSeries:
         for i in range(len(self.series)):
             if i != len(self.series) - 1:
                 self.series[i].prev = self.series[i + 1]
+                self.series[i].prev.will_increase = \
+                    self.series[i].info.close > self.series[i].prev.info.close
+        self.series[0].will_increase = \
+            self.today.info.close > self.series[0].info.close
         self.series.reverse()
 
     def __str__(self):
@@ -49,10 +53,10 @@ class TimeInstance:
     def __init__(self, stock_data, time, interval=None, is_today=False):
         self.info = StockInfo(time, stock_data, is_today)
         self.interval = interval
-        self.prev = None
-        self.will_increase = False
-        self.vol_compare = False
-        self.mavg_compare = False
+        self.prev = None # Will be updated in collection
+        self.will_increase = False # Will be updated in collection
+        self.vol_compare = self.info.volume_10day > self.info.volume_3month
+        self.mavg_compare = self.info.mavg_50 > self.info.mavg_100 > self.info.mavg_200
 
     def __str__(self):
         return str(self.info)

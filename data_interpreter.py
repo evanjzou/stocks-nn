@@ -14,12 +14,13 @@ from neon.optimizers import GradientDescentMomentum
 from neon.callbacks.callbacks import Callbacks
 from neon.transforms import Misclassification
 from neon.util.argparser import NeonArgparser
+import sys
 
 TRAINING_DURATION_IN_DAYS = 1500
 TEST_DURATION_IN_DAYS = 500
 TIME_DIFFERENTIAL = 1440
 NUM_FEATURES = 393
-COMPANY_NAME = 'MSFT'
+COMPANY_NAME = 'GOOG'
 NUM_OUTPUTS = 2
 
 
@@ -27,21 +28,47 @@ NUM_OUTPUTS = 2
 parser = NeonArgparser(__doc__)
 args = parser.parse_args()
 
+companyName = input('Enter Stock Ticker:')
+
+
 def timeInstanceToArray(timeInstance):
+
+    return infoSeriesToArray(timeInstance.infoSeries) + \
+           infoSeriesToArray(timeInstance.previousTimeDiffTI)
+    # inputArray = []
+    # # convert timeInstance output to array form and add to inputArray
+    # inputArray += floatArray(timeInstance.infoSeries.volume)
+    # inputArray += floatArray(timeInstance.infoSeries.currentPrice)
+    # inputArray += floatArray(timeInstance.infoSeries.mavg_50)
+    # inputArray += floatArray(timeInstance.infoSeries.mavg_100)
+    # inputArray += floatArray(timeInstance.infoSeries.mavg_200)
+    # inputArray += floatArray(timeInstance.infoSeries.vol10Day)
+    # inputArray += floatArray(timeInstance.infoSeries.vol3Month)
+    # if timeInstance.infoSeries.volCompare:
+    #     inputArray += [1]
+    # else:
+    #     inputArray += [0]
+    # if timeInstance.infoSeries.mavgCompare:
+    #     inputArray += [1]
+    # else:
+    #     inputArray+= [0]
+    # return inputArray
+
+def infoSeriesToArray(infoSeries):
     inputArray = []
     # convert timeInstance output to array form and add to inputArray
-    inputArray += floatArray(timeInstance.infoSeries.volume)
-    inputArray += floatArray(timeInstance.infoSeries.currentPrice)
-    inputArray += floatArray(timeInstance.infoSeries.mavg_50)
-    inputArray += floatArray(timeInstance.infoSeries.mavg_100)
-    inputArray += floatArray(timeInstance.infoSeries.mavg_200)
-    inputArray += floatArray(timeInstance.infoSeries.vol10Day)
-    inputArray += floatArray(timeInstance.infoSeries.vol3Month)
-    if timeInstance.infoSeries.volCompare:
+    inputArray += floatArray(infoSeries.volume)
+    inputArray += floatArray(infoSeries.currentPrice)
+    inputArray += floatArray(infoSeries.mavg_50)
+    inputArray += floatArray(infoSeries.mavg_100)
+    inputArray += floatArray(infoSeries.mavg_200)
+    inputArray += floatArray(infoSeries.vol10Day)
+    inputArray += floatArray(infoSeries.vol3Month)
+    if infoSeries.volCompare:
         inputArray += [1]
     else:
         inputArray += [0]
-    if timeInstance.infoSeries.mavgCompare:
+    if infoSeries.mavgCompare:
         inputArray += [1]
     else:
         inputArray+= [0]
@@ -78,11 +105,11 @@ def floatArray(float):
     return list(result)
 
 
-def createArrayIterator(companyName, startDate, endDate, timeDifferential):
+def createArrayIterator(company, startIndex, endIndex):
     """
     creates an array iterator for training/testing
-    :param companyName: the company being evaluated
-    :param startDate: the earliest date used by the iterator
+    :param company: a collection object representing the company being evaluated
+    :param startIndex: the earliest date used by the iterator
     :param endDate: the latest date used by the iterator
     :param timeDifferential: the amount of time between time instances being
                              evaluated
@@ -90,13 +117,13 @@ def createArrayIterator(companyName, startDate, endDate, timeDifferential):
     """
 
     # load an array of timeInstance objects
-    company = Collection(companyName, startDate, endDate, timeDifferential)
+    print(len(company.series))
     timeInstances = company.series
 
     # create a 2D array, each row representing a timeseries as an array
     XList = []
-    for timeInstance in timeInstances:
-        XList.append(timeInstanceToArray(timeInstance))
+    for i in range(startIndex, endIndex):
+        XList.append(timeInstanceToArray(timeInstances[i]))
     X = np.array(XList)
 
     # create a 2D array of 1hot collumns for buy/sell
@@ -125,11 +152,16 @@ trainEndDate = date.today() - (testDuration + timedelta(days=1))
 testStartDate = date.today() - testDuration
 testEndDate = date.today() - timedelta(days=1)
 
-# creates an array iterator for the training data and test data
-train_set = createArrayIterator(COMPANY_NAME, trainStartDate,\
-                            trainEndDate, TIME_DIFFERENTIAL)
-test_set = createArrayIterator(COMPANY_NAME, testStartDate,\
+company = Collection(companyName, trainStartDate,\
                             testEndDate, TIME_DIFFERENTIAL)
+
+
+
+# creates an array iterator for the training data and test data
+train_set = createArrayIterator(company, -(TRAINING_DURATION_IN_DAYS + \
+                            TEST_DURATION_IN_DAYS), -TEST_DURATION_IN_DAYS)
+
+test_set = createArrayIterator(company, -(TEST_DURATION_IN_DAYS-1), -1)
 
 #initializes the weights of the neurons
 init_norm = Gaussian(loc=0.0, scale=0.01)
@@ -150,6 +182,7 @@ cost = GeneralizedCost(costfunc=CrossEntropyMulti())
 # coefficient of 0.9
 optimizer = GradientDescentMomentum(0.1, momentum_coef=0.9)
 
+print("Evaluating " + companyName)
 # sets up progress bars
 callbacks = Callbacks(mlp, eval_set=test_set, **args.callback_args)
 
@@ -165,7 +198,7 @@ error = mlp.eval(test_set, metric=Misclassification())*100
 print('Success Rate = %.1f%%' % (100 - error))
 
 # show today's prediction
-company = Collection(COMPANY_NAME, trainStartDate, date.today(), TIME_DIFFERENTIAL)
+company = Collection(companyName, trainStartDate, date.today(), TIME_DIFFERENTIAL)
 today = timeInstanceToArray(company.todaysTI)
 x_new = np.zeros((TEST_DURATION_IN_DAYS, len(today)), dtype=np.int)
 x_new[0] = np.array(today)

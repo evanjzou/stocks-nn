@@ -74,10 +74,6 @@ class StockTimeSeries:
             self.today.info.mavg_200 - self.today.info.close) / self.std_price
         self.series.reverse()
 
-    def set_std(self):
-        """Set the standard deviation of volumes and prices"""
-        pass
-
     def __str__(self):
         return "Series of " + str(len(self.series)) + " trading days"
 
@@ -152,6 +148,7 @@ class MovingAverageCalculator:
 
     def add_instance(self, instance):
         """Adds the time instance to the collection and updates the moving averages"""
+        self.time_instances.append(instance)
         num_contents = len(self.time_instances)
         if num_contents < 10:
             pass

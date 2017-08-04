@@ -60,7 +60,10 @@ class ParsedInfoWith_mavgFlags():
         while days_counted < 90:
             # do something
 
-            current_day = self.__next_day_back(res, current_day)
+            try:
+                current_day = self.__next_day_back(res, current_day)
+            except:
+                print("Checked past 200 days. Incorrect Moving Averages.")
             # current_day = current_day - datetime.timedelta(1)
 
             total = total + float(res['Time Series (Daily)'][str(current_day)]['5. volume'])

@@ -3,6 +3,7 @@ for stock data
 """
 import datetime
 import statistics
+import collections
 import av_loader
 
 class StockTimeSeries:
@@ -85,6 +86,9 @@ class TimeInstance:
 
     def __init__(self, stock_data, time, interval=None, is_today=False):
         self.info = StockInfo(time, stock_data, is_today)
+        self.mavg_50 = self.info.mavg_50
+        self.mavg_100 = self.info.mavg_100
+        self.mavg_200 = self.info.mavg_200
         self.interval = interval
         self.prev = None # Will be updated in collection
         self.will_increase = False # Will be updated in collection
@@ -130,6 +134,37 @@ class StockInfo:
         return str((self.open, self.high, self.low, self.close,
                     self.volume, self.mavg_50, self.mavg_100, self.mavg_200,
                     self.volume_10day, self.volume_3month))
+
+class MovingAverageCalculator:
+    """Calculates the simple moving average of a series of numbers over
+    10, 50, 90, 100, and 200 days
+
+    """
+
+    def __init__(self):
+        self.mavg10 = 0
+        self.mavg50 = 0
+        self.mavg90 = 0
+        self.mavg100 = 0
+        self.mavg200 = 0
+        self._total = 0
+        self.time_instances = collections.deque()
+
+    def add_instance(self, instance):
+        """Adds the time instance to the collection and updates the moving averages"""
+        num_contents = len(self.time_instances)
+        if num_contents < 10:
+            pass
+        elif num_contents < 50:
+            pass
+        elif num_contents < 90:
+            pass
+        elif num_contents < 100:
+            pass
+        elif num_contents < 200:
+            pass
+        else:
+            pass
 
 def date_from_time(time):
     """Returns the date of a time string that begins with format

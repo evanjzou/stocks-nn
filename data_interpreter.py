@@ -6,7 +6,7 @@ from CollectionClass import CollectionForTimeInstanceWithNormalizedData
 from datetime import date, timedelta
 from neon.initializers.initializer import Gaussian
 from neon.layers import Affine
-from neon.transforms import Rectlin, Softmax
+from neon.transforms import Rectlin, Explin, Normalizer, Tanh, Logistic, Softmax
 from neon.models import Model
 from neon.layers import GeneralizedCost
 from neon.transforms import CrossEntropyMulti
@@ -14,7 +14,7 @@ from neon.optimizers import GradientDescentMomentum
 from neon.callbacks.callbacks import Callbacks
 from neon.transforms import Misclassification
 from neon.util.argparser import NeonArgparser
-import sys
+from avloading.StockDataCollection import StockTimeSeries
 
 TRAINING_DURATION_IN_DAYS = 1500
 TEST_DURATION_IN_DAYS = 500
@@ -30,12 +30,20 @@ args = parser.parse_args()
 
 companyName = input('Enter Stock Ticker:')
 
+def boolToInt(bool):
+    if bool:
+        return 1
+    else:
+        return -1
+
 
 def timeInstanceToArray(timeInstance):
+    inputArray = []
+    inputArray += tiToArray(timeInstance)
+    inputArray += tiToArray(timeInstance.prev)
+    inputArray.append(boolToInt(timeInstance.vol_compare))
+    inputArray.append(boolToInt(timeInstance.mavg_compare))
 
-    return tiToArray(timeInstance) + \
-           tiToArray(timeInstance.previousTimeDiffTI)
-    # inputArray = []
     # # convert timeInstance output to array form and add to inputArray
     # inputArray += floatArray(timeInstance.infoSeries.volume)
     # inputArray += floatArray(timeInstance.infoSeries.currentPrice)
@@ -52,23 +60,15 @@ def timeInstanceToArray(timeInstance):
     #     inputArray += [1]
     # else:
     #     inputArray+= [0]
-    # return inputArray
+    return inputArray
 
 def tiToArray(ti):
     inputArray = []
-    # convert timeInstance output to array form and add to inputArray
-    inputArray += [ti.normalized3M]
-    inputArray += [ti.normalized50]
-    inputArray += [ti.normalized100]
-    inputArray += [ti.normalized200]
-    # if ti.volCompare:
-    #     inputArray += [1]
-    # else:
-    #     inputArray += [0]
-    # if ti.mavgCompare:
-    #     inputArray += [1]
-    # else:
-    #     inputArray+= [0]
+    inputArray.append(ti.std_diff_mavg50)
+    inputArray.append(ti.std_diff_mavg100)
+    inputArray.append(ti.std_diff_mavg200)
+    inputArray.append(ti.std_diff_vol)
+    inputArray.append(ti.std_diff_price)
     return inputArray
 
 
@@ -85,39 +85,34 @@ def floatArray(float):
     return list(result)
 
 
-def createArrayIterator(companyName, startDate, endDate, timeDiff):
+def createArrayIterator(company, start, end):
     """
     creates an array iterator for training/testing
     :param company: a collection object representing the company being evaluated
-    :param startIndex: the earliest date used by the iterator
-    :param endDate: the latest date used by the iterator
-    :param timeDifferential: the amount of time between time instances being
-                             evaluated
+    :param start: the starting point, measured in days before today
+    :param endDate: the ending point, measured in days before today
     :return: an ArrayIterator usable by the neural network
     """
 
-    company = CollectionForTimeInstanceWithNormalizedData(companyName, startDate, endDate, timeDiff)
     # load an array of timeInstance objects
     timeInstances = company.series
 
     # create a 2D array, each row representing a timeseries as an array
-    XList = []
-    for timeInstance in timeInstances:
-        XList.append(timeInstanceToArray(timeInstance))
-    X = np.array(XList)
-
     # create a 2D array of 1hot collumns for buy/sell
+    XList = []
     yList = []
-    for timeInstance in timeInstances:
-
-        # flag needs to be set
-        if timeInstance.flag:
+    for i in range(len(timeInstances)-start, len(timeInstances)-end):
+        XList.append(timeInstanceToArray(timeInstances[i]))
+        if timeInstances[i].will_increase:
             yList.append([0,1])
         else:
             yList.append([1,0])
+    X = np.array(XList)
+    print(X)
+
+
+    # flag needs to be set
     y = np.array(yList)
-
-
     return ArrayIterator(X=X, y=y, nclass=NUM_OUTPUTS)
 
 
@@ -132,20 +127,21 @@ trainEndDate = date.today() - (testDuration + timedelta(days=1))
 testStartDate = date.today() - testDuration
 testEndDate = date.today() - timedelta(days=1)
 
+# creates a new stock time series object
+company = StockTimeSeries(companyName)
 
 # creates an array iterator for the training data and test data
-train_set = createArrayIterator(companyName, trainStartDate,\
-                            trainEndDate, TIME_DIFFERENTIAL)
+train_set = createArrayIterator(company, (TRAINING_DURATION_IN_DAYS + \
+                                TEST_DURATION_IN_DAYS), TEST_DURATION_IN_DAYS+1)
 
-test_set = createArrayIterator(companyName, testStartDate,\
-                            testEndDate, TIME_DIFFERENTIAL)
+test_set = createArrayIterator(company, TEST_DURATION_IN_DAYS, 1)
 
 #initializes the weights of the neurons
 init_norm = Gaussian(loc=0.0, scale=0.01)
 
 # creating initial layers
 layers = []
-layers.append(Affine(nout=100, init=init_norm, activation=Rectlin()))
+layers.append(Affine(nout=100, init=init_norm, activation=Logistic()))
 layers.append(Affine(nout=NUM_OUTPUTS, init=init_norm,
                      activation=Softmax()))
 
@@ -157,7 +153,7 @@ cost = GeneralizedCost(costfunc=CrossEntropyMulti())
 
 # uses stochastic gradient descent with learning rate of 0.1 and momentum
 # coefficient of 0.9
-optimizer = GradientDescentMomentum(0.1, momentum_coef=0.9)
+optimizer = GradientDescentMomentum(.1, momentum_coef=0.9)
 
 print("Evaluating " + companyName)
 # sets up progress bars
@@ -175,9 +171,7 @@ error = mlp.eval(test_set, metric=Misclassification())*100
 print('Success Rate = %.1f%%' % (100 - error))
 
 # show today's prediction
-company =  CollectionForTimeInstanceWithNormalizedData(companyName, \
-           trainStartDate, date.today(), TIME_DIFFERENTIAL)
-today = timeInstanceToArray(company.todaysTI)
+today = timeInstanceToArray(company.today)
 x_new = np.zeros((TEST_DURATION_IN_DAYS, len(today)), dtype=np.int)
 x_new[0] = np.array(today)
 todaysData = ArrayIterator(x_new, None, nclass=NUM_OUTPUTS)

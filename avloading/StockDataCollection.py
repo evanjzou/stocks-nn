@@ -55,6 +55,9 @@ class StockTimeSeries:
                     elt.info.close > elt.prev.info.close
                 elt.std_diff_vol = (elt.info.volume - elt.prev.info.volume) / self.std_vol
                 elt.std_diff_price = (elt.info.close - elt.prev.info.close) / self.std_price
+                elt.std_diff_mavg50 = (elt.info.mavg_50 - elt.info.close) / self.std_price
+                elt.std_diff_mavg100 = (elt.info.mavg_100 - elt.info.close) / self.std_price
+                elt.std_diff_mavg200 = (elt.info.mavg_200 - elt.info.close) / self.std_price
         self.today.prev = self.series[0]
         self.series[0].will_increase = \
             self.today.info.close > self.series[0].info.close
@@ -62,6 +65,12 @@ class StockTimeSeries:
             self.today.info.volume - self.today.prev.info.volume) / self.std_vol
         self.today.std_diff_price = (
             self.today.info.close - self.today.prev.info.close) / self.std_price
+        self.today.std_diff_mavg50 = (
+            self.today.info.mavg_50 - self.today.info.close) / self.std_price
+        self.today.std_diff_mavg100 = (
+            self.today.info.mavg_100 - self.today.info.close) / self.std_price
+        self.today.std_diff_mavg200 = (
+            self.today.info.mavg_200 - self.today.info.close) / self.std_price
         self.series.reverse()
 
     def set_std(self):
@@ -83,6 +92,9 @@ class TimeInstance:
         self.mavg_compare = self.info.mavg_50 > self.info.mavg_100 > self.info.mavg_200
         self.std_diff_price = 0 # Will be updated in collection
         self.std_diff_vol = 0 # Will be updated in collection
+        self.std_diff_mavg50 = 0 # Will be updated in collection
+        self.std_diff_mavg100 = 0 # Will be updated in collection
+        self.std_diff_mavg200 = 0 # Will be updated in collection
 
     def __str__(self):
         return str(self.info)

@@ -54,7 +54,6 @@ class Collection:
                 if i > 0:
                     secsToAdd2 = (i - 1) * timeDiffSeconds
                     secToDate2 = self.startDate + datetime.timedelta(0, secsToAdd2)
-                    print(str(secToDate2))
                     if str(secToDate2) in myTIJSON['Time Series (Daily)']:
                         previousTimeDiffTI = TimeInstance(self.companyName, myTIJSON, secToDate2)
 
@@ -74,7 +73,6 @@ class Collection:
         # mostRecentDateTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:00")
         mostRecentDateTime = myTIJSON["Meta Data"]["3. Last Refreshed"]
         if mostRecentDateTime in myTIJSON['Time Series (Daily)']:
-            print(datetime.date.today())
             self.todaysTI = TimeInstance(self.companyName, myTIJSON, datetime.date.today(), mostRecentDateTime)
         else:
             while not mostRecentDateTime in myTIJSON['Time Series (Daily)']:

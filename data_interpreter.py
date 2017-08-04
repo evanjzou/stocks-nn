@@ -2,7 +2,7 @@ from neon.data import ArrayIterator
 import numpy as np
 import math
 import bitstring
-from CollectionClass import Collection
+from CollectionClass import CollectionForTimeInstanceWithNormalizedData
 from datetime import date, timedelta
 from neon.initializers.initializer import Gaussian
 from neon.layers import Affine
@@ -33,8 +33,8 @@ companyName = input('Enter Stock Ticker:')
 
 def timeInstanceToArray(timeInstance):
 
-    return infoSeriesToArray(timeInstance.infoSeries) + \
-           infoSeriesToArray(timeInstance.previousTimeDiffTI)
+    return tiToArray(timeInstance) + \
+           tiToArray(timeInstance.previousTimeDiffTI)
     # inputArray = []
     # # convert timeInstance output to array form and add to inputArray
     # inputArray += floatArray(timeInstance.infoSeries.volume)
@@ -54,41 +54,21 @@ def timeInstanceToArray(timeInstance):
     #     inputArray+= [0]
     # return inputArray
 
-def infoSeriesToArray(infoSeries):
+def tiToArray(ti):
     inputArray = []
     # convert timeInstance output to array form and add to inputArray
-    inputArray += floatArray(infoSeries.volume)
-    inputArray += floatArray(infoSeries.currentPrice)
-    inputArray += floatArray(infoSeries.mavg_50)
-    inputArray += floatArray(infoSeries.mavg_100)
-    inputArray += floatArray(infoSeries.mavg_200)
-    inputArray += floatArray(infoSeries.vol10Day)
-    inputArray += floatArray(infoSeries.vol3Month)
-    if infoSeries.volCompare:
-        inputArray += [1]
-    else:
-        inputArray += [0]
-    if infoSeries.mavgCompare:
-        inputArray += [1]
-    else:
-        inputArray+= [0]
-    return inputArray
-
-def timeInstanceToArray(timeInstance):
-    """
-    creates an array of bits given a specific time instance
-    :param timeInstance: a timeInstance object
-    :return: an array of bits representing the time instance
-    """
-
-    inputArray = []
-    # convert timeInstance output to array form and add to inputArray
-    inputArray += floatArray(timeInstance.infoSeries.volume)
-    inputArray += floatArray(timeInstance.infoSeries.currentPrice)
-    inputArray += floatArray(timeInstance.infoSeries.mavg_50)
-    inputArray += floatArray(timeInstance.infoSeries.mavg_100)
-    inputArray += floatArray(timeInstance.infoSeries.mavg_200)
-
+    inputArray += [ti.normalized3M]
+    inputArray += [ti.normalized50]
+    inputArray += [ti.normalized100]
+    inputArray += [ti.normalized200]
+    # if ti.volCompare:
+    #     inputArray += [1]
+    # else:
+    #     inputArray += [0]
+    # if ti.mavgCompare:
+    #     inputArray += [1]
+    # else:
+    #     inputArray+= [0]
     return inputArray
 
 
@@ -105,7 +85,7 @@ def floatArray(float):
     return list(result)
 
 
-def createArrayIterator(company, startIndex, endIndex):
+def createArrayIterator(companyName, startDate, endDate, timeDiff):
     """
     creates an array iterator for training/testing
     :param company: a collection object representing the company being evaluated
@@ -116,14 +96,14 @@ def createArrayIterator(company, startIndex, endIndex):
     :return: an ArrayIterator usable by the neural network
     """
 
+    company = CollectionForTimeInstanceWithNormalizedData(companyName, startDate, endDate, timeDiff)
     # load an array of timeInstance objects
-    print(len(company.series))
     timeInstances = company.series
 
     # create a 2D array, each row representing a timeseries as an array
     XList = []
-    for i in range(startIndex, endIndex):
-        XList.append(timeInstanceToArray(timeInstances[i]))
+    for timeInstance in timeInstances:
+        XList.append(timeInstanceToArray(timeInstance))
     X = np.array(XList)
 
     # create a 2D array of 1hot collumns for buy/sell
@@ -152,16 +132,13 @@ trainEndDate = date.today() - (testDuration + timedelta(days=1))
 testStartDate = date.today() - testDuration
 testEndDate = date.today() - timedelta(days=1)
 
-company = Collection(companyName, trainStartDate,\
-                            testEndDate, TIME_DIFFERENTIAL)
-
-
 
 # creates an array iterator for the training data and test data
-train_set = createArrayIterator(company, -(TRAINING_DURATION_IN_DAYS + \
-                            TEST_DURATION_IN_DAYS), -TEST_DURATION_IN_DAYS)
+train_set = createArrayIterator(companyName, trainStartDate,\
+                            trainEndDate, TIME_DIFFERENTIAL)
 
-test_set = createArrayIterator(company, -(TEST_DURATION_IN_DAYS-1), -1)
+test_set = createArrayIterator(companyName, testStartDate,\
+                            testEndDate, TIME_DIFFERENTIAL)
 
 #initializes the weights of the neurons
 init_norm = Gaussian(loc=0.0, scale=0.01)
@@ -198,7 +175,8 @@ error = mlp.eval(test_set, metric=Misclassification())*100
 print('Success Rate = %.1f%%' % (100 - error))
 
 # show today's prediction
-company = Collection(companyName, trainStartDate, date.today(), TIME_DIFFERENTIAL)
+company =  CollectionForTimeInstanceWithNormalizedData(companyName, \
+           trainStartDate, date.today(), TIME_DIFFERENTIAL)
 today = timeInstanceToArray(company.todaysTI)
 x_new = np.zeros((TEST_DURATION_IN_DAYS, len(today)), dtype=np.int)
 x_new[0] = np.array(today)

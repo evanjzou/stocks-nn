@@ -33,10 +33,14 @@ class TimeInstanceWithNormalizedData():
     def updateSTD(self, stdVol, stdPrice):
         if self.saveTodaysTI != None:
             self.stdPrice = stdPrice
-            self.normalizedVolume = (self.infoSeries.volume - self.infoSeries.vol10Day) / stdVol
-            self.normalizedOpen = (self.infoSeries.open - self.saveTodaysTI.infoSeries.open) / stdPrice
-            self.normalizedClose = (self.infoSeries.close - self.saveTodaysTI.infoSeries.close) / stdPrice
-            self.normalizedCurrentPrice = (self.infoSeries.currentPrice - self.saveTodaysTI.infoSeries.currentPrice) / stdPrice
+            self.normalizedVolume = (self.infoSeries.volume - self.previousTimeDiffTI.vol10Day) / stdVol
+            self.normalized3M = (self.infoSeries.vol3Month - self.previousTimeDiffTI.vol10Day) / stdVol
+            self.normalizedOpen = (self.infoSeries.open - self.previousTimeDiffTI.infoSeries.open) / stdPrice
+            self.normalizedClose = (self.infoSeries.close - self.previousTimeDiffTI.infoSeries.close) / stdPrice
+            self.normalizedCurrentPrice = (self.infoSeries.currentPrice - self.previousTimeDiffTI.infoSeries.currentPrice) / stdPrice
+            self.normalized50 = (self.infoSeries.mavg_50 - self.previousTimeDiffTI.infoSeries.currentPrice) / stdPrice
+            self.normalized100 = (self.infoSeries.mavg_100 - self.previousTimeDiffTI.infoSeries.currentPrice) / stdPrice
+            self.normalized200 = (self.infoSeries.mavg_200 - self.previousTimeDiffTI.infoSeries.currentPrice) / stdPrice
 
 
 

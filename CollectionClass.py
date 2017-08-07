@@ -7,7 +7,6 @@ from ParsedInfoClassPlusFields import ParsedInfoWith_mavgFlags
 
 
 class Collection:
-    series = []
 
     def __init__(self, inCompanyName, inStartDate, inEndDate, inTimeDifferential):
         ''' inTimeDifferential should be in minutes '''

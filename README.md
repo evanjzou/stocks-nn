@@ -73,7 +73,7 @@ to the stock ticker of the company you wish to run the test for.
   python3 data_interpreter.py
   ```
   
-- An error may occur when using too long of a training duration that 
+- A problem may occur when using too long of a training duration that 
   will result in the following error:
   ```
   Traceback (most recent call last):

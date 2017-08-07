@@ -17,6 +17,13 @@ After installing these dependencies, you must initialize the neon library.
 To do this, connect to the HEAD directory in your command line. 
 From there, enter the command 'make'.
 
+
+If a SSL-Certification issue appears while running the program:
+- Locate Python in your Applications directory
+- Click on 'Install Certificates.command'
+- Close terminal and run the program again
+
+
 ### Tips for Installing
 
 - pip can be downloaded through the following link:
@@ -95,6 +102,7 @@ to the stock ticker of the company you wish to run the test for.
 
 ## Resources
 
-Nervana Neon: <link>
+Nervana Neon Installation: http://neon.nervanasys.com/docs/latest/installation.html
+Nervana Neon Tutorial: http://neon.nervanasys.com/docs/latest/tutorials.html
 
-AlphaVantage: <link>
+AlphaVantage: https://www.alphavantage.co

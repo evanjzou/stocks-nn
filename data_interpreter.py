@@ -60,7 +60,7 @@ def floatToFractionalBinary(float):
 def timeInstanceToArray(timeInstance):
     inputArray = []
     inputArray += tiToArrayFloat(timeInstance)
-    inputArray += tiToArrayFloat(timeInstance.prev)
+    #inputArray += tiToArrayFloat(timeInstance.prev)
     inputArray.append(boolToInt(timeInstance.vol_compare))
     inputArray.append(boolToInt(timeInstance.mavg_compare))
 
@@ -179,7 +179,7 @@ init_norm = Gaussian(loc=0.0, scale=0.01)
 
 # creating initial layers
 layers = []
-layers.append(Affine(nout=100, init=init_norm, activation=Logistic()))
+layers.append(Affine(nout=88, init=init_norm, activation=Logistic()))
 layers.append(Affine(nout=NUM_OUTPUTS, init=init_norm,
                      activation=Softmax()))
 

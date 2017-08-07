@@ -19,7 +19,7 @@ TRAINING_DURATION_IN_DAYS = 1500
 TEST_DURATION_IN_DAYS = 500
 TIME_DIFFERENTIAL = 1440
 NUM_FEATURES = 393
-COMPANY_NAME = 'ATVI'
+COMPANY_NAME = 'GOOG'
 NUM_OUTPUTS = 2
 
 
@@ -90,8 +90,13 @@ def createArrayIterator(companyName, startDate, endDate, timeDifferential):
     """
 
     # load an array of timeInstance objects
+    print(startDate)
+    print(endDate)
     company = Collection(companyName, startDate, endDate, timeDifferential)
+    print(len(company.series))
     timeInstances = company.series
+    print(timeInstances[0])
+    print(timeInstances[-1])
 
     # create a 2D array, each row representing a timeseries as an array
     XList = []
@@ -126,10 +131,13 @@ testStartDate = date.today() - testDuration
 testEndDate = date.today() - timedelta(days=1)
 
 # creates an array iterator for the training data and test data
+print("train set")
 train_set = createArrayIterator(COMPANY_NAME, trainStartDate,\
                             trainEndDate, TIME_DIFFERENTIAL)
+print("test set")
 test_set = createArrayIterator(COMPANY_NAME, testStartDate,\
                             testEndDate, TIME_DIFFERENTIAL)
+
 
 #initializes the weights of the neurons
 init_norm = Gaussian(loc=0.0, scale=0.01)

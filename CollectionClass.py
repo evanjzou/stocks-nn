@@ -15,9 +15,11 @@ class Collection:
         self.startDate = inStartDate
         self.endDate = inEndDate
         self.timeDifferential = inTimeDifferential
+        self.series = []
 
         myTimeDelta = datetime.timedelta()
         myTimeDelta = inEndDate-inStartDate
+        print(myTimeDelta)
         totalSeconds = myTimeDelta.total_seconds()
 
         timeDiffSeconds = inTimeDifferential*60
@@ -93,7 +95,7 @@ class TimeInstance:
         '''
 
     def __str__(self):
-        print(self.timeToSearch, self.flag)
+        return str(self.timeToSearch)
 
 
 def test():

@@ -20,7 +20,7 @@ TRAINING_DURATION_IN_DAYS = 1500
 TEST_DURATION_IN_DAYS = 500
 TIME_DIFFERENTIAL = 1440
 NUM_FEATURES = 393
-COMPANY_NAME = 'GOOG'
+COMPANY_NAME = 'PYPL'
 NUM_OUTPUTS = 2
 
 
@@ -37,10 +37,30 @@ def boolToInt(bool):
         return -1
 
 
+def floatToFractionalBinary(float):
+    """
+    convert the left and right side of the decimal point each
+    to binary, and write them into a set of 64 inputs
+    """
+    fracBin = []
+    left = int(float)
+    right = float - left
+    while left > 0:
+        fracBin.append(left - (2*(left//2)))
+        left = left//2
+    while len(fracBin) < 32:
+        fracBin = [0] + fracBin
+    while len(fracBin) < 64:
+        rightInt = right*2
+        fracBin.append(rightInt)
+        right = right - rightInt
+    return fracBin
+
+
 def timeInstanceToArray(timeInstance):
     inputArray = []
-    inputArray += tiToArray(timeInstance)
-    inputArray += tiToArray(timeInstance.prev)
+    inputArray += tiToArrayFracBin(timeInstance)
+    inputArray += tiToArrayFracBin(timeInstance.prev)
     inputArray.append(boolToInt(timeInstance.vol_compare))
     inputArray.append(boolToInt(timeInstance.mavg_compare))
 
@@ -71,6 +91,14 @@ def tiToArray(ti):
     inputArray.append(ti.std_diff_price)
     return inputArray
 
+def tiToArrayFracBin(ti):
+    inputArray = []
+    inputArray += floatToFractionalBinary(ti.mavg_50)
+    inputArray += floatToFractionalBinary(ti.mavg_100)
+    inputArray += floatToFractionalBinary(ti.mavg_200)
+    inputArray += floatToFractionalBinary(ti.info.volume_10day)
+    inputArray += floatToFractionalBinary(ti.info.volume_3month)
+    return inputArray
 
 def floatArray(float):
     """

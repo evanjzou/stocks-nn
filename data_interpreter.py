@@ -59,8 +59,8 @@ def floatToFractionalBinary(float):
 
 def timeInstanceToArray(timeInstance):
     inputArray = []
-    inputArray += tiToArrayFracBin(timeInstance)
-    inputArray += tiToArrayFracBin(timeInstance.prev)
+    inputArray += tiToArrayFloat(timeInstance)
+    inputArray += tiToArrayFloat(timeInstance.prev)
     inputArray.append(boolToInt(timeInstance.vol_compare))
     inputArray.append(boolToInt(timeInstance.mavg_compare))
 
@@ -98,6 +98,16 @@ def tiToArrayFracBin(ti):
     inputArray += floatToFractionalBinary(ti.mavg_200)
     inputArray += floatToFractionalBinary(ti.info.volume_10day)
     inputArray += floatToFractionalBinary(ti.info.volume_3month)
+    return inputArray
+
+def tiToArrayFloat(ti):
+    inputArray = []
+    inputArray += floatArray(ti.mavg_50)
+    inputArray += floatArray(ti.mavg_100)
+    inputArray += floatArray(ti.mavg_200)
+    inputArray += floatArray(ti.info.volume_10day)
+    inputArray += floatArray(ti.info.volume_3month)
+
     return inputArray
 
 def floatArray(float):

@@ -76,6 +76,12 @@ to the stock ticker of the company you wish to run the test for.
 - An error may occur when using too long of a training duration that 
   will result in the following error:
   ```
+  Traceback (most recent call last):
+  File "data_interpreter.py", line 135, in <module>
+    TEST_DURATION_IN_DAYS), TEST_DURATION_IN_DAYS+1)
+  File "data_interpreter.py", line 105, in createArrayIterator
+    XList.append(timeInstanceToArray(timeInstances[i]))
+  IndexError: list index out of range
   ```
   This is the result of a known defect where the system is querying for
   days in the past that we do not have data on. For example, PYPL has not

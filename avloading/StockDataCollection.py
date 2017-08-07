@@ -133,35 +133,47 @@ class StockInfo:
 
 class MovingAverageCalculator:
     """Calculates the simple moving average of a series of numbers over
-    10, 50, 90, 100, and 200 days
+    [days] days in reverse order
 
     """
 
-    def __init__(self):
-        self.mavg10 = 0
-        self.mavg50 = 0
-        self.mavg90 = 0
-        self.mavg100 = 0
-        self.mavg200 = 0
-        self._total = 0
+    def __init__(self, days):
+        self.time_frame = days
+        self.mavg = 0
+        self.min = 0
+        self.max = 0
         self.time_instances = collections.deque()
 
     def add_instance(self, instance):
-        """Adds the time instance to the collection and updates the moving averages"""
+        """Adds the time instance to the collection, updates the moving average
+        and returns a the earliest time instance outside the time frame.
+        Given TimeInstances inserted in order [n, n-1, n-2,...], add_instance() will return
+        (n, mavg[n-1...n-time_frame-1], minmax[n, n-time_frame])
+        """
         self.time_instances.append(instance)
         num_contents = len(self.time_instances)
-        if num_contents < 10:
-            pass
-        elif num_contents < 50:
-            pass
-        elif num_contents < 90:
-            pass
-        elif num_contents < 100:
-            pass
-        elif num_contents < 200:
-            pass
+        if num_contents == 0:
+            self.min = instance.info.close
+            self.max = instance.info.close
+        if num_contents <= self.time_frame:
+            self.__update_min_max(instance)
+            self.mavg = self.mavg + instance.info.close / self.time_frame
+            return None, 0, 0
         else:
-            pass
+            self.mavg = self.mavg + \
+            (instance.info.close - self.time_instances[0].close) / self.time_frame
+            inst = self.time_instances.popleft()
+            minmax = (inst.info.close - self.min) / (self.max - self.min)
+            self.__update_min_max(instance)
+            return inst, self.mavg, minmax
+
+    def __update_min_max(self, instance):
+        """Updates the min and max fields"""
+        if instance.info.close < self.min:
+            self.min = instance.info.close
+        elif instance.info.close > self.max:
+            self.max = instance.info.close
+
 
 def date_from_time(time):
     """Returns the date of a time string that begins with format
@@ -230,3 +242,10 @@ def volume_avg(res, today):
         elif days_counted == 90:
             day90vol = total / 90
     return day10vol, day90vol
+
+if __name__ == '__main__':
+    stock_data = StockTimeSeries('GOOG')
+    for j in range(len(stock_data.series) - 1):
+        # print(str(stock_data.series[j].will_increase) + " vs. " + \
+        # str(stock_data.series[j + 1].info.close > stock_data.series[j].info.close))
+        print(stock_data.series[j].info.close)

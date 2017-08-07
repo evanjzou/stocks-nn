@@ -14,41 +14,38 @@ from neon.optimizers import GradientDescentMomentum
 from neon.callbacks.callbacks import Callbacks
 from neon.transforms import Misclassification
 from neon.util.argparser import NeonArgparser
-from avloading.StockDataCollection import StockTimeSeries
 
 TRAINING_DURATION_IN_DAYS = 1500
 TEST_DURATION_IN_DAYS = 500
 TIME_DIFFERENTIAL = 1440
 NUM_FEATURES = 393
-COMPANY_NAME = 'GOOG'
+COMPANY_NAME = 'ATVI'
 NUM_OUTPUTS = 2
-START_DATE = date.today() - (timedelta(days=4000))
-END_DATE = date.today() - (timedelta(days=1))
 
 
 #enables customization with flags
 parser = NeonArgparser(__doc__)
 args = parser.parse_args()
 
-# def timeInstanceToArray(timeInstance):
-#     inputArray = []
-#     # convert timeInstance output to array form and add to inputArray
-#     inputArray += floatArray(timeInstance.info.volume)
-#     inputArray += floatArray(timeInstance.info.close)
-#     inputArray += floatArray(timeInstance.info.mavg_50)
-#     inputArray += floatArray(timeInstance.info.mavg_100)
-#     inputArray += floatArray(timeInstance.info.mavg_200)
-#     inputArray += floatArray(timeInstance.info.volume_10day)
-#     inputArray += floatArray(timeInstance.info.volume_3month)
-#     if timeInstance.vol_compare:
-#         inputArray += [1]
-#     else:
-#         inputArray += [0]
-#     if timeInstance.mavg_compare:
-#         inputArray += [1]
-#     else:
-#         inputArray+= [0]
-#     return inputArray
+def timeInstanceToArray(timeInstance):
+    inputArray = []
+    # convert timeInstance output to array form and add to inputArray
+    inputArray += floatArray(timeInstance.infoSeries.volume)
+    inputArray += floatArray(timeInstance.infoSeries.currentPrice)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_50)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_100)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_200)
+    inputArray += floatArray(timeInstance.infoSeries.vol10Day)
+    inputArray += floatArray(timeInstance.infoSeries.vol3Month)
+    if timeInstance.infoSeries.volCompare:
+        inputArray += [1]
+    else:
+        inputArray += [0]
+    if timeInstance.infoSeries.mavgCompare:
+        inputArray += [1]
+    else:
+        inputArray+= [0]
+    return inputArray
 
 def timeInstanceToArray(timeInstance):
     """
@@ -64,16 +61,7 @@ def timeInstanceToArray(timeInstance):
     inputArray += floatArray(timeInstance.infoSeries.mavg_50)
     inputArray += floatArray(timeInstance.infoSeries.mavg_100)
     inputArray += floatArray(timeInstance.infoSeries.mavg_200)
-    # inputArray += floatArray(timeInstance.info.volume_10day)
-    # inputArray += floatArray(timeInstance.info.volume_3month)
-    # if timeInstance.vol_compare:
-    #     inputArray += [1]
-    # else:
-    #     inputArray += [0]
-    # if timeInstance.mavg_compare:
-    #     inputArray += [1]
-    # else:
-    #      inputArray+= [0]
+
     return inputArray
 
 
@@ -90,7 +78,7 @@ def floatArray(float):
     return list(result)
 
 
-def createArrayIterator(companyName,start, end, timeDifferential):
+def createArrayIterator(companyName, startDate, endDate, timeDifferential):
     """
     creates an array iterator for training/testing
     :param companyName: the company being evaluated
@@ -102,15 +90,14 @@ def createArrayIterator(companyName,start, end, timeDifferential):
     """
 
     # load an array of timeInstance objects
-    company = Collection(companyName, START_DATE, END_DATE, timeDifferential)
-    timeInstances = company.series[-start:-end]
+    company = Collection(companyName, startDate, endDate, timeDifferential)
+    timeInstances = company.series
 
     # create a 2D array, each row representing a timeseries as an array
     XList = []
     for timeInstance in timeInstances:
         XList.append(timeInstanceToArray(timeInstance))
     X = np.array(XList)
-    print(X)
 
     # create a 2D array of 1hot collumns for buy/sell
     yList = []
@@ -133,17 +120,16 @@ testDuration = timedelta(days = TEST_DURATION_IN_DAYS)
 
 # find the start date and end date for the training and test
 # data based on their durations
-trainStartDate = date.today() - (timedelta(days=4000))
+trainStartDate = date.today() - (trainingDuration + testDuration)
 trainEndDate = date.today() - (testDuration + timedelta(days=1))
 testStartDate = date.today() - testDuration
 testEndDate = date.today() - timedelta(days=1)
 
 # creates an array iterator for the training data and test data
-train_set = createArrayIterator(COMPANY_NAME, TRAINING_DURATION_IN_DAYS+TEST_DURATION_IN_DAYS,\
-                            TEST_DURATION_IN_DAYS, TIME_DIFFERENTIAL)
-test_set = createArrayIterator(COMPANY_NAME, TEST_DURATION_IN_DAYS,\
-                            1, TIME_DIFFERENTIAL)
-
+train_set = createArrayIterator(COMPANY_NAME, trainStartDate,\
+                            trainEndDate, TIME_DIFFERENTIAL)
+test_set = createArrayIterator(COMPANY_NAME, testStartDate,\
+                            testEndDate, TIME_DIFFERENTIAL)
 
 #initializes the weights of the neurons
 init_norm = Gaussian(loc=0.0, scale=0.01)

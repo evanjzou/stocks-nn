@@ -1,6 +1,0 @@
-#!/Users/johnphilmurray/neon/.venv3/bin/python
-# EASY-INSTALL-DEV-SCRIPT: 'neon==2.0.0','nvis'
-__requires__ = 'neon==2.0.0'
-__import__('pkg_resources').require('neon==2.0.0')
-__file__ = '/Users/johnphilmurray/neon/bin/nvis'
-exec(compile(open(__file__).read(), __file__, 'exec'))

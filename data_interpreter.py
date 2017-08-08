@@ -41,6 +41,10 @@ def floatToFractionalBinary(float):
     """
     convert the left and right side of the decimal point each
     to binary, and write them into a set of 64 inputs
+    :param float: the float being converted to fractional binary
+    format
+    :return: a 64 item array of 1s and 0s representing the bits
+    of the fractional binary representation
     """
     fracBin = []
     left = int(float)
@@ -58,31 +62,25 @@ def floatToFractionalBinary(float):
 
 
 def timeInstanceToArray(timeInstance):
+    """
+    convert a time instance object to an array of input values
+    :param timeInstance: the timeInstance object being converted
+    :return: array of input values, consisting of low valued floats
+    """
     inputArray = []
-    inputArray += tiToArrayFloat(timeInstance)
-    #inputArray += tiToArrayFloat(timeInstance.prev)
+    inputArray += tiToArray(timeInstance)
+    inputArray += tiToArray(timeInstance.prev)
     inputArray.append(boolToInt(timeInstance.vol_compare))
     inputArray.append(boolToInt(timeInstance.mavg_compare))
 
-    # # convert timeInstance output to array form and add to inputArray
-    # inputArray += floatArray(timeInstance.infoSeries.volume)
-    # inputArray += floatArray(timeInstance.infoSeries.currentPrice)
-    # inputArray += floatArray(timeInstance.infoSeries.mavg_50)
-    # inputArray += floatArray(timeInstance.infoSeries.mavg_100)
-    # inputArray += floatArray(timeInstance.infoSeries.mavg_200)
-    # inputArray += floatArray(timeInstance.infoSeries.vol10Day)
-    # inputArray += floatArray(timeInstance.infoSeries.vol3Month)
-    # if timeInstance.infoSeries.volCompare:
-    #     inputArray += [1]
-    # else:
-    #     inputArray += [0]
-    # if timeInstance.infoSeries.mavgCompare:
-    #     inputArray += [1]
-    # else:
-    #     inputArray+= [0]
-    return inputArray
 
 def tiToArray(ti):
+    """
+    converts numeric values of a time instance into an input array using their
+    standard deviations
+    :param ti: time instance being used
+    :return: array representation of the numeric values within the time instance
+    """
     inputArray = []
     inputArray.append(ti.std_diff_mavg50)
     inputArray.append(ti.std_diff_mavg100)
@@ -92,6 +90,12 @@ def tiToArray(ti):
     return inputArray
 
 def tiToArrayFracBin(ti):
+    """
+    converts numeric values of a time instance into an input array using their
+    fractional binary representations
+    :param ti: time instance being used
+    :return: array representation of the numeric values within the time instance
+    """
     inputArray = []
     inputArray += floatToFractionalBinary(ti.mavg_50)
     inputArray += floatToFractionalBinary(ti.mavg_100)
@@ -101,6 +105,12 @@ def tiToArrayFracBin(ti):
     return inputArray
 
 def tiToArrayFloat(ti):
+    """
+    converts numeric values of a time instance into an input array using their
+    ieee float representations
+    :param ti: time instance being used
+    :return: array representation of the numeric values within the time instance
+    """
     inputArray = []
     inputArray += floatArray(ti.mavg_50)
     inputArray += floatArray(ti.mavg_100)

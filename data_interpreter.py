@@ -2,7 +2,7 @@ from neon.data import ArrayIterator
 import numpy as np
 import math
 import bitstring
-from CollectionClass import CollectionForTimeInstanceWithNormalizedData
+from CollectionClass import Collection
 from datetime import date, timedelta
 from neon.initializers.initializer import Gaussian
 from neon.layers import Affine
@@ -60,19 +60,36 @@ def floatToFractionalBinary(float):
 
 def timeInstanceToArray(timeInstance):
     """
-    convert a time instance object to an array of input values
-    :param timeInstance: the timeInstance object being converted
-    :return: array of input values, consisting of low valued floats
+    creates an array of bits given a specific time instance
+    :param timeInstance: a timeInstance object
+    :return: an array of bits representing the time instance
     """
+
     inputArray = []
-    inputArray += tiToArrayFloat(timeInstance)
-    # inputArray += tiToArrayFloat(timeInstance.prev)
-    # inputArray.append(boolToInt(timeInstance.vol_compare))
-    # inputArray.append(boolToInt(timeInstance.mavg_compare))
-    # dayOfWeek = [0,0,0,0,0]
-    # dayOfWeek[timeInstance.dayOfWeek-1] = 1
-    # inputArray += dayOfWeek
+    # convert timeInstance output to array form and add to inputArray
+    inputArray += floatArray(timeInstance.infoSeries.volume)
+    inputArray += floatArray(timeInstance.infoSeries.close)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_50)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_100)
+    inputArray += floatArray(timeInstance.infoSeries.mavg_200)
+
     return inputArray
+
+# def timeInstanceToArray(timeInstance):
+#     """
+#     convert a time instance object to an array of input values
+#     :param timeInstance: the timeInstance object being converted
+#     :return: array of input values, consisting of low valued floats
+#     """
+#     inputArray = []
+#     inputArray += tiToArrayFloat(timeInstance)
+#     inputArray += tiToArrayFloat(timeInstance.prev)
+#     inputArray.append(boolToInt(timeInstance.vol_compare))
+#     inputArray.append(boolToInt(timeInstance.mavg_compare))
+#     dayOfWeek = [0,0,0,0,0]
+#     dayOfWeek[timeInstance.dayOfWeek-1] = 1
+#     inputArray += dayOfWeek
+#     return inputArray
 
 def tiToArray(ti):
     """
@@ -151,7 +168,7 @@ def createArrayIterator(company, start, end, test=False):
     yList = []
     for timeInstance in timeInstances:
         XList.append(timeInstanceToArray(timeInstance))
-        if timeInstance.will_increase:
+        if timeInstance.flag:
             yList.append([0,1])
         else:
             yList.append([1,0])
@@ -183,7 +200,7 @@ def run():
     testEndDate = date.today() - timedelta(days=1)
 
     # creates a new stock time series object
-    company = StockTimeSeries(companyName)
+    company = Collection(companyName, date.today()-timedelta(days=3000), date.today(), 1440)
 
     # creates an array iterator for the training data and test data
     train_set = createArrayIterator(company, -(TRAINING_DURATION_IN_DAYS + \

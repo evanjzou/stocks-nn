@@ -100,6 +100,10 @@ class TimeInstance:
         self.std_diff_mavg100 = 0 # Will be updated in collection
         self.std_diff_mavg200 = 0 # Will be updated in collection
 
+        formattedTime = date_from_time(time);
+        timeAsDate = datetime.date(int(formattedTime[:4]), int(formattedTime[5:7]), int(formattedTime[8:]))
+        self.dayOfWeek = timeAsDate.isoweekday()
+
     def __str__(self):
         return str(self.info)
 

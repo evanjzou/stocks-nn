@@ -73,11 +73,40 @@ class Collection:
 
 
         self.setFlags()
+        self.setpricegapflags()
+        self.setrangeexpansioncontraction()
 
     def setFlags(self):
         for i in range(0, len(self.series)-1):
             if self.series[i].infoSeries.close < self.series[i+1].infoSeries.close:
                 self.series[i].flag = True
+    def setpricegapflags(self):
+        for i in range(0, len(self.series)-1):
+            if self.series[i].infoSeries.close > self.series[i+1].infoSeries.open:
+                self.series[i].negativepricegap = True
+                self.series[i].positivepricegap = False
+            elif self.series[i].infoSeries.close < self.series[i+1].infoSeries.open:
+                self.series[i].negativepricegap = False
+                self.series[i].positivepricegap = True
+    def setrangeexpansioncontraction(self):
+        for i in range(0, len(self.series)):
+            if i==0:
+                ibhigh = self.series[i].infoSeries.high
+                iblow = self.series[i].infoSeries.low
+            elif i==1:
+                if self.series[i].infoSeries.high > ibhigh:
+                    ibhigh = self.series[i].infoSeries.high
+                if self.series[i].infoSeries.low < iblow:
+                    iblow = self.series[i].infoSeries.low
+                print(ibhigh, iblow)
+            else:
+                if self.series[i].infoSeries.high > ibhigh or self.series[i].infoSeries.low < iblow:
+                    self.series[i].rangeexpansion = True
+                    self.series[i].rangecontraction = False
+                elif self.series[i].infoSeries.high < ibhigh or self.series[i].infoSeries.low > iblow:
+                    self.series[i].rangeexpansion = False
+                    self.series[i].rangecontraction = True
+
 
     def addTimeInstance(self, timeInstance):
 
@@ -91,6 +120,10 @@ class TimeInstance:
     def __init__(self, companyName, unparsedJSON, timeToSearch, dateStr=None, previousTimeDiffTI=None):
         self.companyName = companyName
         self.flag = False
+        self.positivepricegap = None # must become the opposite of negativepricegap
+        self.negativepricegap = None # must become the opposite of positivepricegap
+        self.rangeexpansion = None
+        self.rangecontraction = None
         self.timeToSearch = timeToSearch
         self.previousTimeDiffTI = previousTimeDiffTI
 
@@ -105,8 +138,9 @@ class TimeInstance:
         '''
 
     def __str__(self):
-        if self.previousTimeDiffTI != None:
-            (self.previousTimeDiffTI).infoSeries.__str__()
+        print(self.timeToSearch, self.infoSeries.high, self.infoSeries.low, self.rangeexpansion, self.rangecontraction)
+        # if self.previousTimeDiffTI != None:
+        #     (self.previousTimeDiffTI).infoSeries.__str__()
         # print(self.timeToSearch, self.flag)
 
 

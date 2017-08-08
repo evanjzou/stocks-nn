@@ -11,6 +11,8 @@ class ParsedInfoWith_mavgFlags():
             self.dateStr = dateStr
         self.info = info
         self.volume = float(self.info["Time Series (Daily)"][self.dateStr]["5. volume"])
+        self.high = float(self.info["Time Series (Daily)"][self.dateStr]["2. high"])
+        self.low = float(self.info["Time Series (Daily)"][self.dateStr]["3. low"])
         self.open = float(self.info["Time Series (Daily)"][self.dateStr]["1. open"])
         self.close = float(self.info["Time Series (Daily)"][self.dateStr]["4. close"])
         self.percentChange = (self.close - self.open)/self.open

@@ -66,12 +66,12 @@ def timeInstanceToArray(timeInstance):
     """
     inputArray = []
     inputArray += tiToArrayFloat(timeInstance)
-    inputArray += tiToArrayFloat(timeInstance.prev)
-    inputArray.append(boolToInt(timeInstance.vol_compare))
-    inputArray.append(boolToInt(timeInstance.mavg_compare))
-    dayOfWeek = [0,0,0,0,0]
-    dayOfWeek[timeInstance.dayOfWeek-1] = 1
-    inputArray += dayOfWeek
+    # inputArray += tiToArrayFloat(timeInstance.prev)
+    # inputArray.append(boolToInt(timeInstance.vol_compare))
+    # inputArray.append(boolToInt(timeInstance.mavg_compare))
+    # dayOfWeek = [0,0,0,0,0]
+    # dayOfWeek[timeInstance.dayOfWeek-1] = 1
+    # inputArray += dayOfWeek
     return inputArray
 
 def tiToArray(ti):

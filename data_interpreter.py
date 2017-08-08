@@ -13,8 +13,8 @@ from neon.transforms import CrossEntropyMulti
 from neon.optimizers import GradientDescentMomentum
 from neon.callbacks.callbacks import Callbacks
 from neon.transforms import Misclassification
-from neon.util.argparser import NeonArgparser
 from avloading.StockDataCollection import StockTimeSeries
+from neon.util.argparser import NeonArgparser
 
 TRAINING_DURATION_IN_DAYS = 1500
 TEST_DURATION_IN_DAYS = 500
@@ -23,12 +23,9 @@ NUM_FEATURES = 393
 COMPANY_NAME = 'PYPL'
 NUM_OUTPUTS = 2
 
-
 #enables customization with flags
 parser = NeonArgparser(__doc__)
 args = parser.parse_args()
-
-companyName = input('Enter Stock Ticker:')
 
 def boolToInt(bool):
     if bool:
@@ -68,16 +65,19 @@ def timeInstanceToArray(timeInstance):
     :return: array of input values, consisting of low valued floats
     """
     inputArray = []
-    inputArray += tiToArray(timeInstance)
-    inputArray += tiToArray(timeInstance.prev)
+    inputArray += tiToArrayFloat(timeInstance)
+    inputArray += tiToArrayFloat(timeInstance.prev)
     inputArray.append(boolToInt(timeInstance.vol_compare))
     inputArray.append(boolToInt(timeInstance.mavg_compare))
-
+    dayOfWeek = [0,0,0,0,0]
+    dayOfWeek[timeInstance.dayOfWeek-1] = 1
+    inputArray += dayOfWeek
+    return inputArray
 
 def tiToArray(ti):
     """
     converts numeric values of a time instance into an input array using their
-    standard deviations
+    standard deviation
     :param ti: time instance being used
     :return: array representation of the numeric values within the time instance
     """
@@ -133,100 +133,108 @@ def floatArray(float):
     return list(result)
 
 
-def createArrayIterator(company, start, end):
+def createArrayIterator(company, start, end, test=False):
     """
     creates an array iterator for training/testing
     :param company: a collection object representing the company being evaluated
-    :param start: the starting point, measured in days before today
-    :param endDate: the ending point, measured in days before today
+    :param start: the starting point index
+    :param endDate: the ending point index
     :return: an ArrayIterator usable by the neural network
     """
 
     # load an array of timeInstance objects
-    timeInstances = company.series
+    timeInstances = company.series[start:end]
 
     # create a 2D array, each row representing a timeseries as an array
     # create a 2D array of 1hot collumns for buy/sell
     XList = []
     yList = []
-    for i in range(len(timeInstances)-start, len(timeInstances)-end):
-        XList.append(timeInstanceToArray(timeInstances[i]))
-        if timeInstances[i].will_increase:
+    for timeInstance in timeInstances:
+        XList.append(timeInstanceToArray(timeInstance))
+        if timeInstance.will_increase:
             yList.append([0,1])
         else:
             yList.append([1,0])
+    if test:
+        print("X length")
+        print(len(XList))
+        print("Y length")
+        print(len(yList))
     X = np.array(XList)
-    print(X)
 
 
     # flag needs to be set
     y = np.array(yList)
     return ArrayIterator(X=X, y=y, nclass=NUM_OUTPUTS)
 
+def run():
 
-# create timeDeltas of testDuration and trainingDuration
-trainingDuration = timedelta(days = TRAINING_DURATION_IN_DAYS)
-testDuration = timedelta(days = TEST_DURATION_IN_DAYS)
 
-# find the start date and end date for the training and test
-# data based on their durations
-trainStartDate = date.today() - (trainingDuration + testDuration)
-trainEndDate = date.today() - (testDuration + timedelta(days=1))
-testStartDate = date.today() - testDuration
-testEndDate = date.today() - timedelta(days=1)
+    companyName = input('Enter Stock Ticker:')
+    # create timeDeltas of testDuration and trainingDuration
+    trainingDuration = timedelta(days = TRAINING_DURATION_IN_DAYS)
+    testDuration = timedelta(days = TEST_DURATION_IN_DAYS)
 
-# creates a new stock time series object
-company = StockTimeSeries(companyName)
+    # find the start date and end date for the training and test
+    # data based on their durations
+    trainStartDate = date.today() - (trainingDuration + testDuration)
+    trainEndDate = date.today() - (testDuration + timedelta(days=1))
+    testStartDate = date.today() - testDuration
+    testEndDate = date.today() - timedelta(days=1)
 
-# creates an array iterator for the training data and test data
-train_set = createArrayIterator(company, (TRAINING_DURATION_IN_DAYS + \
-                                TEST_DURATION_IN_DAYS), TEST_DURATION_IN_DAYS+1)
+    # creates a new stock time series object
+    company = StockTimeSeries(companyName)
 
-test_set = createArrayIterator(company, TEST_DURATION_IN_DAYS, 1)
+    # creates an array iterator for the training data and test data
+    train_set = createArrayIterator(company, -(TRAINING_DURATION_IN_DAYS + \
+                                TEST_DURATION_IN_DAYS), -TEST_DURATION_IN_DAYS)
 
-#initializes the weights of the neurons
-init_norm = Gaussian(loc=0.0, scale=0.01)
+    test_set = createArrayIterator(company, -TEST_DURATION_IN_DAYS, len(company.series))
 
-# creating initial layers
-layers = []
-layers.append(Affine(nout=88, init=init_norm, activation=Logistic()))
-layers.append(Affine(nout=NUM_OUTPUTS, init=init_norm,
+    #initializes the weights of the neurons
+    init_norm = Gaussian(loc=0.0, scale=0.01)
+
+    # creating initial layers
+    layers = []
+    layers.append(Affine(nout=88, init=init_norm, activation=Logistic()))
+    layers.append(Affine(nout=NUM_OUTPUTS, init=init_norm,
                      activation=Softmax()))
 
-# sets up a model with the provided layers
-mlp = Model(layers=layers)
+    # sets up a model with the provided layers
+    mlp = Model(layers=layers)
 
-# specifies cost function to use with neural network
-cost = GeneralizedCost(costfunc=CrossEntropyMulti())
+    # specifies cost function to use with neural network
+    cost = GeneralizedCost(costfunc=CrossEntropyMulti())
 
-# uses stochastic gradient descent with learning rate of 0.1 and momentum
-# coefficient of 0.9
-optimizer = GradientDescentMomentum(.1, momentum_coef=0.9)
+    # uses stochastic gradient descent with learning rate of 0.1 and momentum
+    # coefficient of 0.9
+    optimizer = GradientDescentMomentum(.1, momentum_coef=0.9)
 
-print("Evaluating " + companyName)
-# sets up progress bars
-callbacks = Callbacks(mlp, eval_set=test_set, **args.callback_args)
+    print("Evaluating " + companyName)
+    # sets up progress bars
+    callbacks = Callbacks(mlp, eval_set=test_set, **args.callback_args)
 
-# puts the model together
-mlp.fit(train_set, optimizer=optimizer, num_epochs=args.epochs, cost=cost,
-        callbacks=callbacks)
+    # puts the model together
+    mlp.fit(train_set, optimizer=optimizer, num_epochs=args.epochs, cost=cost,
+            callbacks=callbacks)
 
-# tests the model with a specific test set
-results = mlp.get_outputs(test_set)
-
-
-error = mlp.eval(test_set, metric=Misclassification())*100
-print('Success Rate = %.1f%%' % (100 - error))
-
-# show today's prediction
-today = timeInstanceToArray(company.today)
-x_new = np.zeros((TEST_DURATION_IN_DAYS, len(today)), dtype=np.int)
-x_new[0] = np.array(today)
-todaysData = ArrayIterator(x_new, None, nclass=NUM_OUTPUTS)
-classes = ["sell", "buy"]
-out = mlp.get_outputs(todaysData)
-print(classes[out[0].argmax()] + " %.1f%%" % (100 * np.amax(out[0])))
+    # tests the model with a specific test set
+    results = mlp.get_outputs(test_set)
 
 
+    error = mlp.eval(test_set, metric=Misclassification())*100
+    print('Success Rate = %.1f%%' % (100 - error))
 
+    # show today's prediction
+    today = timeInstanceToArray(company.today)
+    x_new = np.zeros((TEST_DURATION_IN_DAYS, len(today)), dtype=np.int)
+    x_new[0] = np.array(today)
+    todaysData = ArrayIterator(x_new, None, nclass=NUM_OUTPUTS)
+    classes = ["sell", "buy"]
+    out = mlp.get_outputs(todaysData)
+    print(classes[out[0].argmax()] + " %.1f%%" % (100 * np.amax(out[0])))
+
+
+if __name__ == '__main__':
+    run()
 

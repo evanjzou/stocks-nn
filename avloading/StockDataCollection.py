@@ -5,6 +5,7 @@ import datetime
 import statistics
 import collections
 import av_loader
+import random
 
 class StockTimeSeries:
     """A Collection of stock time instances
@@ -144,7 +145,7 @@ class MovingAverageCalculator:
         self.max = 0
         self.time_instances = collections.deque()
 
-    def add_instance(self, instance):
+    def add_instance(self, getval, instance):
         """Adds the time instance to the collection, updates the moving average
         and returns a the earliest time instance outside the time frame.
         Given TimeInstances inserted in order [n, n-1, n-2,...], add_instance() will return
@@ -153,17 +154,17 @@ class MovingAverageCalculator:
         self.time_instances.append(instance)
         num_contents = len(self.time_instances)
         if num_contents == 0:
-            self.min = instance.info.close
-            self.max = instance.info.close
+            self.min = getval(instance)
+            self.max = getval(instance)
         if num_contents <= self.time_frame:
             self.__update_min_max(instance)
-            self.mavg = self.mavg + instance.info.close / self.time_frame
+            self.mavg = self.mavg + getval(instance) / self.time_frame
             return None, 0, 0
         else:
             self.mavg = self.mavg + \
-            (instance.info.close - self.time_instances[0].close) / self.time_frame
+            (getval(instance) - getval(self.time_instances[0])) / self.time_frame
             inst = self.time_instances.popleft()
-            minmax = (inst.info.close - self.min) / (self.max - self.min)
+            minmax = (getval(inst) - self.min) / (self.max - self.min)
             self.__update_min_max(instance)
             return inst, self.mavg, minmax
 
@@ -245,7 +246,13 @@ def volume_avg(res, today):
 
 if __name__ == '__main__':
     stock_data = StockTimeSeries('GOOG')
-    for j in range(len(stock_data.series) - 1):
+    counter = 0
+    for j in range(len(stock_data.series)):
         # print(str(stock_data.series[j].will_increase) + " vs. " + \
         # str(stock_data.series[j + 1].info.close > stock_data.series[j].info.close))
-        print(stock_data.series[j].info.close)
+        # print(stock_data.series[j].info.close)
+        # if stock_data.series[j].will_increase == random.randint(0, 1):
+        #    counter = counter + 1
+        if stock_data.series[j].will_increase == 1:
+            counter = counter + 1
+    print(str((counter / len(stock_data.series)) * 100) + "% correct with all buy")

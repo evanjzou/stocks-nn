@@ -48,17 +48,26 @@ class StockTimeSeries:
         self.std_vol = statistics.stdev(volumes)
         self.std_price = statistics.stdev(prices)
         # Configure meta-fields
-        for i in range(len(self.series)):
-            if i != len(self.series) - 1:
-                elt = self.series[i]
-                elt.prev = self.series[i + 1]
-                elt.prev.will_increase = \
-                    elt.info.close > elt.prev.info.close
-                elt.std_diff_vol = (elt.info.volume - elt.prev.info.volume) / self.std_vol
-                elt.std_diff_price = (elt.info.close - elt.prev.info.close) / self.std_price
-                elt.std_diff_mavg50 = (elt.info.mavg_50 - elt.info.close) / self.std_price
-                elt.std_diff_mavg100 = (elt.info.mavg_100 - elt.info.close) / self.std_price
-                elt.std_diff_mavg200 = (elt.info.mavg_200 - elt.info.close) / self.std_price
+        for i in range(len(self.series)-1):
+            elt = self.series[i]
+            elt.prev = self.series[i + 1]
+            elt.prev.will_increase = \
+                elt.info.close > elt.prev.info.close
+            elt.std_diff_vol = (elt.info.volume - elt.prev.info.volume) / self.std_vol
+            elt.std_diff_price = (elt.info.close - elt.prev.info.close) / self.std_price
+            elt.std_diff_mavg50 = (elt.info.mavg_50 - elt.info.close) / self.std_price
+            elt.std_diff_mavg100 = (elt.info.mavg_100 - elt.info.close) / self.std_price
+            elt.std_diff_mavg200 = (elt.info.mavg_200 - elt.info.close) / self.std_price
+
+            elt.prev.negative_price_gap = \
+                elt.info.high < elt.prev.info.low
+            elt.prev.positive_price_gap = \
+                elt.info.low > elt.prev.info.high
+            elt.prev.range_expansion = \
+                (elt.info.high-elt.info.low) > (elt.prev.info.high-elt.prev.info.low)
+            elt.prev.range_contraction = \
+                not(elt.prev.range_expansion)
+
         self.today.prev = self.series[0]
         self.series[0].will_increase = \
             self.today.info.close > self.series[0].info.close
@@ -99,12 +108,17 @@ class TimeInstance:
         self.std_diff_mavg50 = 0 # Will be updated in collection
         self.std_diff_mavg100 = 0 # Will be updated in collection
         self.std_diff_mavg200 = 0 # Will be updated in collection
+        self.positive_price_gap = None
+        self.negative_price_gap = None
+        self.range_expansion = None
+        self.range_contraction = None
 
-        formattedTime = date_from_time(time);
+        formattedTime = date_from_time(time)
         timeAsDate = datetime.date(int(formattedTime[:4]), int(formattedTime[5:7]), int(formattedTime[8:]))
         self.dayOfWeek = timeAsDate.isoweekday()
 
     def __str__(self):
+        print(self.range_expansion, self.range_contraction, self.negative_price_gap, self.positive_price_gap)
         return str(self.info)
 
 class StockInfo:
@@ -237,3 +251,28 @@ def volume_avg(res, today):
         elif days_counted == 90:
             day90vol = total / 90
     return day10vol, day90vol
+
+# def test():
+#     # for the third parameter above (the interval) you may need to change it once the AVLoader class is
+#     # expanded to actually implement/make use of the interval attribute
+#
+#
+#     testDate1 = datetime.date(2017, 7, 24)
+#     testDate2 = datetime.date(2017, 7, 27)
+#     testTimeDelta = datetime.timedelta(3)
+#     testDiff = 1440
+#     testColl = StockTimeSeries("MSFT")
+#
+#     testDate = datetime.date(2017, 7, 26)
+#     # testTimeInstance = TimeInstance("MSFT", asdf, testDate) # need an actual date object, not a string
+#
+#
+#     # testTimeInstance.infoSeries.__str__()
+#
+#     for x in testColl.series:
+#         print(x.__str__())
+#         # x.infoSeries.__str__()
+#
+#     print("Made it to the end of the test.")
+#
+# test()

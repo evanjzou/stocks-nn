@@ -172,6 +172,8 @@ def createArrayIterator(company, start, end, test=False):
     yList = []
 
     for timeInstance in timeInstances:
+
+        #TODO change function name to run a different normalization method on the values
         XList.append(tiToArrayFloat(timeInstance))
 
         # flag needs to be set
@@ -237,6 +239,8 @@ def run():
 
 
     # show today's prediction
+
+    #TODO change function name to run a different normalization method on the values
     today = tiToArrayFloat(company.today)
     x_new = np.zeros((TEST_DURATION_IN_DAYS, len(today)), dtype=np.int)
     x_new[0] = np.array(today)

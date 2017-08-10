@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a0768721-f3e5-4541-b71d-76375df89430" name="Default" comment="">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
 =======
@@ -13,6 +14,9 @@
 >>>>>>> johnny-branch
 =======
 >>>>>>> f983bd6b36468fc0d2dfcb4fd517d4f7a52d72dd
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ParsedInfoClassPlusFields.py" afterPath="$PROJECT_DIR$/ParsedInfoClassPlusFields.py" />
+>>>>>>> johnny-branch
     </list>
     <ignored path="stocks-nn.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,6 +34,7 @@
     <favorites_list name="stocks-nn" />
   </component>
   <component name="FileEditorManager">
+<<<<<<< HEAD
 <<<<<<< HEAD
     <leaf>
       <file leaf-file-name="data_interpreter.py" pinned="false" current-in-tab="false">
@@ -50,6 +55,14 @@
             <state relative-caret-position="2193">
               <caret line="144" column="18" lean-forward="false" selection-start-line="144" selection-start-column="18" selection-end-line="144" selection-end-column="18" />
 >>>>>>> f983bd6b36468fc0d2dfcb4fd517d4f7a52d72dd
+=======
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="data_interpreter.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data_interpreter.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="935">
+              <caret line="55" column="43" lean-forward="false" selection-start-line="55" selection-start-column="43" selection-end-line="55" selection-end-column="43" />
+>>>>>>> johnny-branch
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -61,7 +74,11 @@
         <entry file="file://$PROJECT_DIR$/neon/backends/nervanacpu.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
+<<<<<<< HEAD
               <caret line="0" column="1" lean-forward="false" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
+=======
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> johnny-branch
               <folding />
             </state>
           </provider>
@@ -70,7 +87,11 @@
       <file leaf-file-name="dataiterator.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neon/data/dataiterator.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="1734">
+=======
+            <state relative-caret-position="550">
+>>>>>>> johnny-branch
               <caret line="105" column="36" lean-forward="false" selection-start-line="105" selection-start-column="36" selection-end-line="105" selection-end-column="36" />
               <folding />
             </state>
@@ -80,8 +101,13 @@
       <file leaf-file-name="CollectionClass.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CollectionClass.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="119">
               <caret line="46" column="8" lean-forward="false" selection-start-line="46" selection-start-column="8" selection-end-line="46" selection-end-column="8" />
+=======
+            <state relative-caret-position="-39">
+              <caret line="191" column="29" lean-forward="true" selection-start-line="191" selection-start-column="29" selection-end-line="191" selection-end-column="29" />
+>>>>>>> johnny-branch
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
               </folding>
@@ -89,6 +115,7 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="ParsedInfo.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ParsedInfo.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -104,9 +131,38 @@
             <state relative-caret-position="68">
               <caret line="6" column="24" lean-forward="false" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
 >>>>>>> f983bd6b36468fc0d2dfcb4fd517d4f7a52d72dd
+=======
+      <file leaf-file-name="TimeInstanceClasses.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TimeInstanceClasses.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="50" column="27" lean-forward="false" selection-start-line="50" selection-start-column="27" selection-end-line="50" selection-end-column="27" />
+>>>>>>> johnny-branch
               <folding>
-                <element signature="e#0#30#0" expanded="true" />
+                <element signature="e#0#17#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestCollectionHierarchy.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TestCollectionHierarchy.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="12">
+              <caret line="17" column="21" lean-forward="true" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
+              <folding>
+                <element signature="e#0#17#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ParsedInfoClassPlusFields.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ParsedInfoClassPlusFields.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -130,6 +186,15 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>todaysTI</find>
+      <find>stdVol</find>
+      <find>setS</find>
+      <find>timeI</find>
+      <find>print</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -137,6 +202,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$USER_HOME$/neon/Tutorial1.py" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/data_interpreter.py" />
         <option value="$USER_HOME$/PycharmProjects/TestThing/TestThing.py" />
         <option value="$PROJECT_DIR$/ParsedInfo.py" />
@@ -149,6 +215,20 @@
     <option name="y" value="28" />
     <option name="width" value="1280" />
     <option name="height" value="670" />
+=======
+        <option value="$PROJECT_DIR$/ParsedInfo.py" />
+        <option value="$PROJECT_DIR$/data_interpreter.py" />
+        <option value="$PROJECT_DIR$/CollectionClass.py" />
+        <option value="$PROJECT_DIR$/TimeInstanceClasses.py" />
+        <option value="$PROJECT_DIR$/TestCollectionHierarchy.py" />
+        <option value="$PROJECT_DIR$/ParsedInfoClassPlusFields.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="width" value="683" />
+    <option name="height" value="728" />
+>>>>>>> johnny-branch
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -167,30 +247,26 @@
     <panes>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <pane id="Scope" />
 =======
 >>>>>>> johnny-branch
       <pane id="Scratches" />
+=======
+      <pane id="Scope" />
+>>>>>>> johnny-branch
       <pane id="ProjectPane">
         <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="stocks-nn" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="stocks-nn" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="stocks-nn" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
+          <expand>
+            <path>
+              <item name="stocks-nn" type="b2602c69:ProjectViewProjectNode" />
+              <item name="stocks-nn" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
         </subPane>
       </pane>
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       <pane id="Scope" />
@@ -200,11 +276,18 @@
       <pane id="ProjectPane" />
       <pane id="Scratches" />
 >>>>>>> f983bd6b36468fc0d2dfcb4fd517d4f7a52d72dd
+=======
+      <pane id="Scratches" />
+>>>>>>> johnny-branch
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+<<<<<<< HEAD
     <property name="last_opened_file_path" value="$USER_HOME$/neon/Tutorial1.py" />
+=======
+    <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/Programs/Python/Python36-32/python.exe" />
+>>>>>>> johnny-branch
     <property name="FullScreen" value="false" />
   </component>
   <component name="RecentsManager">
@@ -224,7 +307,11 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="RunManager" selected="Python.CollectionClass">
+=======
+  <component name="RunManager" selected="Python.TestCollectionHierarchy">
+>>>>>>> johnny-branch
     <configuration name="CollectionClass" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -242,6 +329,26 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
+<<<<<<< HEAD
+=======
+    <configuration name="TestCollectionHierarchy" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="stocks-nn" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestCollectionHierarchy.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+>>>>>>> johnny-branch
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -364,9 +471,20 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
+<<<<<<< HEAD
     <recent_temporary>
       <list size="1">
         <item index="0" class="java.lang.String" itemvalue="Python.CollectionClass" />
+=======
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Python.CollectionClass" />
+      <item index="1" class="java.lang.String" itemvalue="Python.TestCollectionHierarchy" />
+    </list>
+    <recent_temporary>
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Python.TestCollectionHierarchy" />
+        <item index="1" class="java.lang.String" itemvalue="Python.CollectionClass" />
+>>>>>>> johnny-branch
       </list>
     </recent_temporary>
   </component>
@@ -374,12 +492,15 @@
     <option name="remove_strategy" value="false" />
   </component>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <component name="ShelveChangesManager" show_recycled="false" />
   <component name="SvnConfiguration">
     <configuration>$USER_HOME$/.subversion</configuration>
   </component>
 =======
 >>>>>>> f983bd6b36468fc0d2dfcb4fd517d4f7a52d72dd
+=======
+>>>>>>> johnny-branch
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="a0768721-f3e5-4541-b71d-76375df89430" name="Default" comment="" />
@@ -398,6 +519,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <frame x="0" y="23" width="1280" height="773" extended-state="6" />
@@ -443,6 +565,21 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+=======
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24409449" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+>>>>>>> johnny-branch
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -450,9 +587,14 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+<<<<<<< HEAD
       <window_info id="Find" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
 >>>>>>> f983bd6b36468fc0d2dfcb4fd517d4f7a52d72dd
+=======
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+>>>>>>> johnny-branch
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -470,8 +612,13 @@
     <entry file="file://$PROJECT_DIR$/data_interpreter.py">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.0">
           <caret line="153" column="53" selection-start-line="153" selection-start-column="53" selection-end-line="153" selection-end-column="53" />
+=======
+        <state relative-caret-position="935">
+          <caret line="55" column="43" lean-forward="false" selection-start-line="55" selection-start-column="43" selection-end-line="55" selection-end-column="43" />
+>>>>>>> johnny-branch
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
@@ -480,20 +627,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/neon/backends/nervanacpu.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="1" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
+=======
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> johnny-branch
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/neon/data/dataiterator.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.0">
           <caret line="105" column="36" selection-start-line="105" selection-start-column="36" selection-end-line="105" selection-end-column="36" />
+=======
+        <state relative-caret-position="1734">
+          <caret line="105" column="36" lean-forward="false" selection-start-line="105" selection-start-column="36" selection-end-line="105" selection-end-column="36" />
+>>>>>>> johnny-branch
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/CollectionClass.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -518,10 +676,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="115" column="9" selection-start-line="115" selection-start-column="4" selection-end-line="115" selection-end-column="9" />
+=======
+    <entry file="file://$PROJECT_DIR$/av_loader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1904">
+          <caret line="115" column="9" lean-forward="false" selection-start-line="115" selection-start-column="4" selection-end-line="115" selection-end-column="9" />
+>>>>>>> johnny-branch
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/data_interpreter.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -533,6 +698,33 @@
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
+=======
+    <entry file="file://$PROJECT_DIR$/CollectionClass.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1275">
+          <caret line="75" column="13" lean-forward="false" selection-start-line="75" selection-start-column="8" selection-end-line="75" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_interpreter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neon/backends/nervanacpu.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+>>>>>>> johnny-branch
         </state>
       </provider>
     </entry>
@@ -544,18 +736,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/neon/backends/nervanacpu.py">
+    <entry file="file://$PROJECT_DIR$/CollectionClass.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="0">
           <caret line="0" column="1" lean-forward="false" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
+=======
+        <state relative-caret-position="1275">
+          <caret line="75" column="13" lean-forward="false" selection-start-line="75" selection-start-column="8" selection-end-line="75" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/av_loader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1904">
+          <caret line="115" column="9" lean-forward="false" selection-start-line="115" selection-start-column="4" selection-end-line="115" selection-end-column="9" />
+>>>>>>> johnny-branch
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ParsedInfo.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="68">
           <caret line="6" column="24" lean-forward="false" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
+=======
+        <state relative-caret-position="918">
+          <caret line="54" column="13" lean-forward="false" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="13" />
+>>>>>>> johnny-branch
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
@@ -572,6 +784,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CollectionClass.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="884">
           <caret line="55" column="27" lean-forward="true" selection-start-line="55" selection-start-column="27" selection-end-line="55" selection-end-column="27" />
           <folding>
@@ -632,6 +845,10 @@
         <state relative-caret-position="884">
           <caret line="54" column="13" lean-forward="false" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="13" />
 >>>>>>> f983bd6b36468fc0d2dfcb4fd517d4f7a52d72dd
+=======
+        <state relative-caret-position="594">
+          <caret line="54" column="13" lean-forward="false" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="13" />
+>>>>>>> johnny-branch
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
@@ -639,6 +856,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
 <<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/data_interpreter.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -708,12 +926,55 @@
         <state relative-caret-position="0">
           <caret line="75" column="13" lean-forward="false" selection-start-line="75" selection-start-column="8" selection-end-line="75" selection-end-column="13" />
 >>>>>>> f983bd6b36468fc0d2dfcb4fd517d4f7a52d72dd
+=======
+    <entry file="file://$PROJECT_DIR$/data_interpreter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="935">
+          <caret line="55" column="43" lean-forward="false" selection-start-line="55" selection-start-column="43" selection-end-line="55" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neon/data/dataiterator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="105" column="36" lean-forward="false" selection-start-line="105" selection-start-column="36" selection-end-line="105" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neon/backends/nervanacpu.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestCollectionHierarchy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12">
+          <caret line="17" column="21" lean-forward="true" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CollectionClass.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-39">
+          <caret line="191" column="29" lean-forward="true" selection-start-line="191" selection-start-column="29" selection-end-line="191" selection-end-column="29" />
+>>>>>>> johnny-branch
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/ParsedInfo.py">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
@@ -790,12 +1051,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2193">
           <caret line="144" column="18" lean-forward="false" selection-start-line="144" selection-start-column="18" selection-end-line="144" selection-end-column="18" />
+=======
+    <entry file="file://$PROJECT_DIR$/TimeInstanceClasses.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="50" column="27" lean-forward="false" selection-start-line="50" selection-start-column="27" selection-end-line="50" selection-end-column="27" />
+>>>>>>> johnny-branch
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#17#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$USER_HOME$/PycharmProjects/TestThing/TestThing.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -820,6 +1088,13 @@
           <folding>
             <element signature="e#0#17#0" expanded="true" />
           </folding>
+=======
+    <entry file="file://$PROJECT_DIR$/ParsedInfoClassPlusFields.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+>>>>>>> johnny-branch
         </state>
       </provider>
     </entry>

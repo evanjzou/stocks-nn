@@ -2,6 +2,8 @@
 for stock data
 """
 import datetime
+import statistics
+import collections
 import av_loader
 
 class StockTimeSeries:
@@ -16,10 +18,14 @@ class StockTimeSeries:
         self.time_diff = time_diff
         self.today = TimeInstance(stock_data, str(datetime.date.today()), is_today=True)
         self.series = []
+        self.std_vol = 0
+        self.std_price = 0
         self.__set_series(stock_data)
+        #self.std_vol = statistics.stdev(volumes)
+        #self.std_price = statistics.stdev(prices)
 
     def __set_series(self, stock_data):
-        """Populate series with time instances"""
+        """Populate series with time instances and sets std_vol and std_prices"""
         if self.time_diff != None:
             raise NotImplementedError("Only daily time differential implemented")
         current_day = None
@@ -29,20 +35,48 @@ class StockTimeSeries:
         except av_loader.TimeoutException:
             raise IndexError("Stock data is not valid")
 
+        volumes = []
+        prices = []
         while True:
             self.series.append(TimeInstance(stock_data, str(current_day)))
+            volumes.append(self.series[len(self.series) - 1].info.volume)
+            prices.append(self.series[len(self.series) - 1].info.close)
             try:
                 current_day = next_day_back(stock_data, current_day)
             except av_loader.TimeoutException:
                 break
+        self.std_vol = statistics.stdev(volumes)
+        self.std_price = statistics.stdev(prices)
+        # Configure meta-fields
         for i in range(len(self.series)):
             if i != len(self.series) - 1:
-                self.series[i].prev = self.series[i + 1]
-                self.series[i].prev.will_increase = \
-                    self.series[i].info.close > self.series[i].prev.info.close
+                elt = self.series[i]
+                elt.prev = self.series[i + 1]
+                elt.prev.will_increase = \
+                    elt.info.close > elt.prev.info.close
+                elt.std_diff_vol = (elt.info.volume - elt.prev.info.volume) / self.std_vol
+                elt.std_diff_price = (elt.info.close - elt.prev.info.close) / self.std_price
+                elt.std_diff_mavg50 = (elt.info.mavg_50 - elt.info.close) / self.std_price
+                elt.std_diff_mavg100 = (elt.info.mavg_100 - elt.info.close) / self.std_price
+                elt.std_diff_mavg200 = (elt.info.mavg_200 - elt.info.close) / self.std_price
+        self.today.prev = self.series[0]
         self.series[0].will_increase = \
             self.today.info.close > self.series[0].info.close
+        self.today.std_diff_vol = (
+            self.today.info.volume - self.today.prev.info.volume) / self.std_vol
+        self.today.std_diff_price = (
+            self.today.info.close - self.today.prev.info.close) / self.std_price
+        self.today.std_diff_mavg50 = (
+            self.today.info.mavg_50 - self.today.info.close) / self.std_price
+        self.today.std_diff_mavg100 = (
+            self.today.info.mavg_100 - self.today.info.close) / self.std_price
+        self.today.std_diff_mavg200 = (
+            self.today.info.mavg_200 - self.today.info.close) / self.std_price
         self.series.reverse()
+
+    def set_std(self):
+        """Set the standard deviation of volumes and prices"""
+        pass
 
     def __str__(self):
         return "Series of " + str(len(self.series)) + " trading days"
@@ -52,11 +86,23 @@ class TimeInstance:
 
     def __init__(self, stock_data, time, interval=None, is_today=False):
         self.info = StockInfo(time, stock_data, is_today)
+        self.mavg_50 = self.info.mavg_50
+        self.mavg_100 = self.info.mavg_100
+        self.mavg_200 = self.info.mavg_200
         self.interval = interval
         self.prev = None # Will be updated in collection
         self.will_increase = False # Will be updated in collection
         self.vol_compare = self.info.volume_10day > self.info.volume_3month
         self.mavg_compare = self.info.mavg_50 > self.info.mavg_100 > self.info.mavg_200
+        self.std_diff_price = 0 # Will be updated in collection
+        self.std_diff_vol = 0 # Will be updated in collection
+        self.std_diff_mavg50 = 0 # Will be updated in collection
+        self.std_diff_mavg100 = 0 # Will be updated in collection
+        self.std_diff_mavg200 = 0 # Will be updated in collection
+
+        formattedTime = date_from_time(time);
+        timeAsDate = datetime.date(int(formattedTime[:4]), int(formattedTime[5:7]), int(formattedTime[8:]))
+        self.dayOfWeek = timeAsDate.isoweekday()
 
     def __str__(self):
         return str(self.info)
@@ -92,6 +138,37 @@ class StockInfo:
         return str((self.open, self.high, self.low, self.close,
                     self.volume, self.mavg_50, self.mavg_100, self.mavg_200,
                     self.volume_10day, self.volume_3month))
+
+class MovingAverageCalculator:
+    """Calculates the simple moving average of a series of numbers over
+    10, 50, 90, 100, and 200 days
+
+    """
+
+    def __init__(self):
+        self.mavg10 = 0
+        self.mavg50 = 0
+        self.mavg90 = 0
+        self.mavg100 = 0
+        self.mavg200 = 0
+        self._total = 0
+        self.time_instances = collections.deque()
+
+    def add_instance(self, instance):
+        """Adds the time instance to the collection and updates the moving averages"""
+        num_contents = len(self.time_instances)
+        if num_contents < 10:
+            pass
+        elif num_contents < 50:
+            pass
+        elif num_contents < 90:
+            pass
+        elif num_contents < 100:
+            pass
+        elif num_contents < 200:
+            pass
+        else:
+            pass
 
 def date_from_time(time):
     """Returns the date of a time string that begins with format

@@ -12,9 +12,9 @@ def testCreateArrayIterator():
 
     company = di.StockTimeSeries('GOOG')
     print("Training Data")
-    di.createArrayIterator(company, -(di.TRAINING_DURATION_IN_DAYS + \
-                                di.TEST_DURATION_IN_DAYS), -di.TEST_DURATION_IN_DAYS, True)
+    di.createArrayIterator(company, (di.TRAINING_DURATION_IN_DAYS + \
+                                di.TEST_DURATION_IN_DAYS), di.TEST_DURATION_IN_DAYS, True)
     print("Test Data")
-    di.createArrayIterator(company, -di.TEST_DURATION_IN_DAYS, len(company.series), True)
+    di.createArrayIterator(company, di.TEST_DURATION_IN_DAYS, -len(company.series), True)
 
 testCreateArrayIterator()

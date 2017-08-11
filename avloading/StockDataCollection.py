@@ -59,14 +59,15 @@ class StockTimeSeries:
             elt.std_diff_mavg100 = (elt.info.mavg_100 - elt.info.close) / self.std_price
             elt.std_diff_mavg200 = (elt.info.mavg_200 - elt.info.close) / self.std_price
 
-            elt.prev.negative_price_gap = \
-                elt.info.high < elt.prev.info.low
-            elt.prev.positive_price_gap = \
-                elt.info.low > elt.prev.info.high
+            elt.prev.prev.negative_price_gap = \
+                elt.prev.info.high < elt.prev.prev.info.low
+            elt.prev.prev.positive_price_gap = \
+                elt.prev.info.low > elt.prev.prev.info.high
             elt.prev.range_expansion = \
                 (elt.info.high-elt.info.low) > (elt.prev.info.high-elt.prev.info.low)
             elt.prev.range_contraction = \
                 not(elt.prev.range_expansion)
+
 
         self.today.prev = self.series[0]
         self.series[0].will_increase = \

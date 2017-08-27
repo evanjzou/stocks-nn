@@ -2,6 +2,8 @@ from datetime import timedelta
 import datetime
 import av_loader
 
+"""DEPRECATED. Use avloading/StockDataCollection instead"""
+
 class ParsedInfoWith_mavgFlags():
     def __init__(self, info, date, dateStr=None):
         self.date = date

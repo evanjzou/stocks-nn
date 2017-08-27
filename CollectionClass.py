@@ -10,6 +10,8 @@ from TimeInstanceClasses import TimeInstance
 #add a std function
 #timeout excpetion
 
+"""DEPRECATED. Use avloading/StockDataCollection instead"""
+
 class Collection:
 
     def __init__(self, inCompanyName, inStartDate, inEndDate, inTimeDifferential):

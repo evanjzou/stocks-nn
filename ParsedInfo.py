@@ -2,6 +2,8 @@ from datetime import timedelta
 import datetime
 import av_loader
 
+"""DEPRECATED. Use avloading/StockDataCollection instead"""
+
 class ParsedInfo:
     def __init__(self, info, date, dateString=None):
         self.date = date
